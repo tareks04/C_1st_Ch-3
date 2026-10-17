@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন কুইজ</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        bangla: ['Hind Siliguri', 'sans-serif'],
+                    },
+                    colors: {
+                        deep: {
+                            bg: '#060913',
+                            surface: '#0d1322',
+                            card: '#131b2e',
+                            border: '#1e293b',
+                            accent: '#6366f1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #060913;
+            color: #f1f5f9;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Glassmorphism Styling */
+        .glass-card {
+            background: rgba(19, 27, 46, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glow-indigo {
+            box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.25);
+        }
+
+        .glow-emerald {
+            box-shadow: 0 0 20px -5px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Smooth Transitions */
+        .animated-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#060913] text-slate-100 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Fixed Header -->
+    <header class="sticky top-0 z-40 glass-card border-b border-slate-800 shadow-xl">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center font-bold text-xl shadow-lg text-white">
+                    💀
+                </div>
+                <div>
+                    <h1 class="text-base md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 leading-tight">
+                        মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন
+                    </h1>
+                    <p class="text-xs text-slate-400">রসায়ন প্রথম পত্র (C-03)</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="confirmReset()" class="animated-btn flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/20 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <span>রিসেট (Reset)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="w-full bg-slate-950 h-1.5">
+            <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 h-1.5 transition-all duration-300 w-0"></div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="max-w-6xl mx-auto w-full px-4 py-6 md:py-8 flex-grow">
+
+        <!-- Live Statistics Grid -->
+        <div id="stats-strip" class="mb-6 grid grid-cols-3 gap-3">
+            <div class="glass-card p-3 rounded-2xl text-center border border-slate-800">
+                <span class="text-xs text-slate-400 block mb-0.5">মোট প্রশ্ন</span>
+                <span id="stat-total" class="text-lg md:text-2xl font-bold text-indigo-400">0</span>
+            </div>
+            <div class="glass-card p-3 rounded-2xl text-center border border-slate-800">
+                <span class="text-xs text-slate-400 block mb-0.5">উত্তর প্রদান</span>
+                <span id="stat-answered" class="text-lg md:text-2xl font-bold text-amber-400">0</span>
+            </div>
+            <div class="glass-card p-3 rounded-2xl text-center border border-slate-800">
+                <span class="text-xs text-slate-400 block mb-0.5">বর্তমান স্কোর</span>
+                <span id="stat-score" class="text-lg md:text-2xl font-bold text-emerald-400">0</span>
+            </div>
+        </div>
+
+        <!-- Question Quick Navigator -->
+        <div class="mb-6 glass-card p-3.5 rounded-2xl border border-slate-800">
+            <div class="flex justify-between items-center mb-2.5 px-1">
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">প্রশ্ন নেভিগেটর</span>
+                <span id="completion-tag" class="text-xs text-indigo-400 font-semibold bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/20">0% সম্পন্ন</span>
+            </div>
+            <div id="nav-grid" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+                <!-- Navigation buttons generated by JS -->
+            </div>
+        </div>
+
+        <!-- Quiz card + bookmarks sidebar -->
+        <div id="quiz-bookmark-layout" class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px] gap-5 items-start mb-6">
+        <!-- Main Quiz Question Card -->
+        <div id="quiz-card" class="glass-card rounded-3xl p-5 md:p-8 border border-slate-800 glow-indigo relative transition-all">
+            
+            <!-- Question Meta Header -->
+            <div class="flex flex-wrap justify-between items-center gap-3 mb-4 pb-3 border-b border-slate-800/80">
+                <span id="question-badge" class="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold rounded-full">
+                    প্রশ্ন ১ / ০
+                </span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs text-slate-400 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-800">অধ্যায় ৩: মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন</span>
+                    <button id="bookmark-current-btn" onclick="toggleCurrentBookmark()" aria-pressed="false" class="animated-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-semibold bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/30">☆ বুকমার্ক করুন</button>
+                </div>
+            </div>
+
+            <!-- Question Title -->
+            <h2 id="question-text" class="text-lg md:text-2xl font-bold text-slate-100 mb-6 leading-relaxed">
+                লোড হচ্ছে...
+            </h2>
+
+            <!-- MCQ Options Container -->
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Options injected by JS -->
+            </div>
+
+            <!-- Instant Fact & Explanation Box -->
+            <div id="rationale-box" class="hidden mb-6 p-4 rounded-2xl border transition-all text-sm leading-relaxed">
+                <div id="rationale-title" class="font-bold mb-1 flex items-center gap-2 text-base"></div>
+                <p id="rationale-text" class="text-slate-300"></p>
+            </div>
+
+            <!-- Footer Navigation Controls -->
+            <div class="flex justify-between items-center pt-4 border-t border-slate-800/80">
+                <button id="prev-btn" onclick="navigateQuestion(-1)" class="animated-btn px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/60 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1">
+                    ← পূর্ববর্তী
+                </button>
+                <button id="next-btn" onclick="navigateQuestion(1)" class="animated-btn px-6 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-600/30 flex items-center gap-1">
+                    পরবর্তী →
+                </button>
+            </div>
+        </div>
+
+        
+        <!-- Bookmarked Questions Sidebar -->
+        <aside id="bookmark-sidebar" class="glass-card rounded-3xl p-4 border border-amber-500/20 lg:sticky lg:top-28">
+            <div class="flex items-center justify-between gap-2 mb-2">
+                <h2 class="text-base font-bold text-amber-300">★ বুকমার্ক করা প্রশ্ন</h2>
+                <span id="bookmark-count" class="text-xs font-bold text-amber-200 bg-amber-500/10 border border-amber-500/20 rounded-full px-2 py-1">0</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">গুরুত্বপূর্ণ বা ভুল হওয়া প্রশ্ন এখানে জমা থাকবে। যেকোনো প্রশ্নে চাপ দিলে সরাসরি সেখানে যেতে পারবেন।</p>
+            <div id="bookmark-list" class="space-y-2 max-h-[42vh] overflow-y-auto pr-1">
+                <p class="text-sm text-slate-500 py-3 text-center">এখনও কোনো প্রশ্ন বুকমার্ক করা হয়নি।</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-800">
+                <button onclick="exportBookmarks()" class="animated-btn px-2 py-2 rounded-xl text-xs font-semibold bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 border border-indigo-500/20">⬇ ব্যাকআপ</button>
+                <button onclick="document.getElementById('bookmark-import-input').click()" class="animated-btn px-2 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700">⬆ রিস্টোর</button>
+            </div>
+            <input id="bookmark-import-input" type="file" accept="application/json,.json" class="hidden" onchange="importBookmarks(event)">
+            <p class="text-[11px] text-slate-500 mt-2 leading-relaxed">অন্য ব্রাউজার বা ডিভাইসে নিতে ব্যাকআপ ডাউনলোড করে সেখানে রিস্টোর করুন।</p>
+        </aside>
+        </div>
+
+        <!-- Quiz Completion Results Screen -->
+        <div id="result-screen" class="hidden glass-card rounded-3xl p-6 md:p-10 text-center border border-slate-800 glow-emerald">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-4xl shadow-xl shadow-emerald-500/20 text-white">
+                🏆
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">কুইজ সম্পন্ন হয়েছে!</h2>
+            <p class="text-slate-400 text-sm mb-6">আপনার চূড়ান্ত ফলাফলের বিবরণ নিচে দেওয়া হলো</p>
+
+            <!-- Results Metrics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-xs text-slate-400 block mb-1">মোট প্রশ্ন</span>
+                    <span id="res-total" class="text-2xl font-bold text-indigo-400">0</span>
+                </div>
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-xs text-slate-400 block mb-1">সঠিক উত্তর</span>
+                    <span id="res-correct" class="text-2xl font-bold text-emerald-400">0</span>
+                </div>
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-xs text-slate-400 block mb-1">ভুল উত্তর</span>
+                    <span id="res-wrong" class="text-2xl font-bold text-rose-400">0</span>
+                </div>
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <span class="text-xs text-slate-400 block mb-1">সাফল্যের হার</span>
+                    <span id="res-accuracy" class="text-2xl font-bold text-amber-400">0%</span>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="restartQuiz()" class="animated-btn px-6 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-600/30">
+                    🔄 পুনরায় পরীক্ষা দিন
+                </button>
+                <button onclick="toggleReviewMode()" class="animated-btn px-6 py-3 rounded-xl font-bold text-sm bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700">
+                    📋 উত্তর পর্যালোচনা (Review)
+                </button>
+            </div>
+
+            <!-- Detailed Review Container -->
+            <div id="review-container" class="hidden mt-8 text-left space-y-4 pt-6 border-t border-slate-800">
+                <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+                    <span>📌</span> সকল প্রশ্নের বিস্তারিত পর্যালোচনা
+                </h3>
+                <div id="review-list" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Reset Confirmation Modal -->
+    <div id="reset-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card border border-slate-800 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center text-xl font-bold">
+                ⚠️
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">কুইজ রিসেট করতে চান?</h3>
+            <p class="text-xs text-slate-400 mb-6">আপনার বর্তমান ফলাফল এবং উত্তরসমূহ মুছে পুনরায় শুরু হবে।</p>
+            <div class="flex gap-3 justify-center">
+                <button onclick="closeResetModal()" class="animated-btn px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300">
+                    বাতিল
+                </button>
+                <button onclick="executeReset()" class="animated-btn px-5 py-2.5 rounded-xl text-xs font-semibold bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-600/30">
+                    হ্যাঁ, রিসেট করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 border-t border-slate-800/80 text-center text-xs text-slate-500">
+        Content Of Tarek-Copyrighted
+    </footer>
+
+    <script>
+        // ==========================================
+        // EXTRACTED QUIZ DATA (151 MCQs from C-03 PDF)
+        // ==========================================
+        const quizData = [
+            {
+                id: 1,
+                question: "s-ব্লকের মৌল সংখ্যা কয়টি?",
+                options: ["১৪টি", "২৪টি", "২৬টি", "৩৬টি"],
+                correct: 0,
+                fact: "s-ব্লকে মোট ১৪টি মৌল রয়েছে (গ্রুপ ১ ও ২ এর মৌলসমূহ এবং হিলিয়াম)।"
+            },
+            {
+                id: 2,
+                question: "p-ব্লকের মৌল সংখ্যা কয়টি?",
+                options: ["১৪টি", "৩৬টি", "৪১টি", "২৭টি"],
+                correct: 1,
+                fact: "পর্যায় সারণির p-ব্লকভুক্ত মৌলের মোট সংখ্যা ৩৬টি।"
+            },
+            {
+                id: 3,
+                question: "d-ব্লকের মৌল সংখ্যা কয়টি?",
+                options: ["১৪টি", "৩৬টি", "৪১টি", "২৭টি"],
+                correct: 3,
+                fact: "d-ব্লকভুক্ত প্রধান অবস্থান্তর মৌলের সংখ্যা ২৭টি।"
+            },
+            {
+                id: 4,
+                question: "কোনো মৌলের পরমাণুর যোজ্যতান্তরে ns²np⁵ ইলেকট্রন বিন্যাস থাকলে ঐ মৌলের অবস্থান পর্যায় সারণিতে কোন গ্রুপে হবে?",
+                options: ["15 (5A)", "5 (5B)", "17 (7A)", "2 (2A)"],
+                correct: 2,
+                fact: "ns²np⁵ বিন্যাস নির্দেশ করে মৌলটি গ্রুপ 17 বা হ্যালোজেন পরিবারের অন্তর্ভুক্ত।"
+            },
+            {
+                id: 5,
+                question: "39Y মৌলটির পর্যায় সারণিতে অবস্থান কোনটি?",
+                options: ["পর্যায়-5 গ্রুপ-1", "পর্যায়-5 গ্রুপ-2", "পর্যায়-5 গ্রুপ-3", "পর্যায়-5 গ্রুপ-13"],
+                correct: 2,
+                fact: "ইট্রিয়াম (Y, পারমাণবিক সংখ্যা 39)-এর অবস্থান পর্যায় 5, গ্রুপ 3।"
+            },
+            {
+                id: 6,
+                question: "কোন ইলেকট্রন বিন্যাসটি সঠিক?",
+                options: ["Zn²⁺ : [Ar] 3d¹⁰", "Ni²⁺ : [Ar] 3d⁶ 4s²", "Fe²⁺ : [Ar] 3d⁴ 4s²", "Cu²⁺ : [Ar] 3d⁹ 4s¹"],
+                correct: 0,
+                fact: "Zn থেকে দুটি ইলেকট্রন 4s অরবিটাল থেকে অপসারিত হয়ে Zn²⁺ : [Ar] 3d¹⁰ গঠন করে।"
+            },
+            {
+                id: 7,
+                question: "পর্যায় সারণির কোন শ্রেণির মৌলকে চ্যালকোজেন বলে?",
+                options: ["13", "14", "15", "16"],
+                correct: 3,
+                fact: "গ্রুপ 16-এর মৌলগুলোকে চ্যালকোজেন (আকরিক উৎপাদনকারী) বলা হয়।"
+            },
+            {
+                id: 8,
+                question: "প্রথম p-ব্লক মৌল কোনটি?",
+                options: ["B", "C", "S", "N"],
+                correct: 0,
+                fact: "পর্যায় সারণির দ্বিতীয় পর্যায়ে বোরন (B) হলো প্রথম p-ব্লক মৌল।"
+            },
+            {
+                id: 9,
+                question: "'s' ব্লক মৌল কোনটি?",
+                options: ["Al", "K", "Mn", "As"],
+                correct: 1,
+                fact: "পটাশিয়াম (K, পারমাণবিক সংখ্যা 19)-এর শেষ ইলেকট্রন s-অরবিটালে প্রবেশ করে।"
+            },
+            {
+                id: 10,
+                question: "'d' ব্লকের প্রথম মৌল কোনটি?",
+                options: ["V", "Cr", "Mn", "Sc"],
+                correct: 3,
+                fact: "স্ক্যান্ডিয়াম (Sc, পারমাণবিক সংখ্যা 21) d-ব্লকের প্রথম মৌল।"
+            },
+            {
+                id: 11,
+                question: "কোনগুলো অধাতু?",
+                options: ["Si, Ge, As", "Na, K, Ca", "Mg, Al, Sb", "Ne, Fe, Ni"],
+                correct: 3,
+                fact: "নিষ্ক্রিয় গ্যাস ও অন্যান্য অধাতুভিত্তিক সঠিক সেট।"
+            },
+            {
+                id: 12,
+                question: "কোনটি মৃৎ-ক্ষার ধাতু?",
+                options: ["Sr", "Cs", "Sc", "Si"],
+                correct: 0,
+                fact: "স্ট্রনশিয়াম (Sr) গ্রুপ 2-এর অন্তর্ভুক্ত হওয়ায় এটি মৃৎ-ক্ষার ধাতু।"
+            },
+            {
+                id: 13,
+                question: "বিরল মৃত্তিকা ধাতু কোন গ্রুপে অবস্থিত?",
+                options: ["গ্রুপ-1", "গ্রুপ-2", "গ্রুপ-3", "গ্রুপ-4"],
+                correct: 2,
+                fact: "ল্যান্থানাইড ও অ্যাক্টিনাইড সিরিজসহ বিরল মৃত্তিকা ধাতুসমূহ গ্রুপ-3 এ অবস্থিত।"
+            },
+            {
+                id: 14,
+                question: "f ব্লক মৌল সংখ্যা কয়টি?",
+                options: ["27", "30", "36", "41"],
+                correct: 0,
+                fact: "f-ব্লকভুক্ত মৌলের মোট সংখ্যা ২৭টি।"
+            },
+            {
+                id: 15,
+                question: "পর্যায় সারণির কোন্ গ্রুপের মৌলগুলো তীব্র জারক?",
+                options: ["গ্রুপ-1", "গ্রুপ-2", "গ্রুপ-17", "গ্রুপ-16"],
+                correct: 2,
+                fact: "গ্রুপ-17 বা হ্যালোজেনসমূহ সহজে ইলেকট্রন গ্রহণ করায় তীব্র জারক।"
+            },
+            {
+                id: 16,
+                question: "নিচের কোন যুগলের দুটি মৌলই অষ্টক সম্প্রসারণ ঘটাতে পারে?",
+                options: ["Al ও S", "Al ও Si", "Al ও Sb", "Si ও P"],
+                correct: 3,
+                fact: "সিলিকন (Si) এবং ফসফরাস (P)-এ ফাঁকা d-অরবিটাল থাকায় অষ্টক সম্প্রসারণ ঘটে।"
+            },
+            {
+                id: 17,
+                question: "নিচের কোন যৌগটি আর্দ্র বিশ্লেষিত হয়?",
+                options: ["C₆H₆", "NaCl", "SiCl₄", "CCl₄"],
+                correct: 2,
+                fact: "SiCl₄ এ সিলিকনের ফাঁকা d-অরবিটাল থাকায় এটি পানিতে আর্দ্র বিশ্লেষিত হয়।"
+            },
+            {
+                id: 18,
+                question: "ns¹ যোজ্যতার মৌল পানিসহ বিক্রিয়ায় কোনটি উৎপন্ন করে?",
+                options: ["এসিড", "ক্ষার", "লবণ", "ক্ষারক"],
+                correct: 1,
+                fact: "গ্রুপ 1 (ns¹) এর ক্ষার ধাতু পানির সাথে বিক্রিয়া করে শক্তিশালী ক্ষার ও হাইড্রোজেন দেয়।"
+            },
+            {
+                id: 19,
+                question: "দৈত্যাকার অণু গঠন করে কোনটি?",
+                options: ["CO₂", "SiO₂", "SO₂", "NO₂"],
+                correct: 1,
+                fact: "সিলিকন ডাই-অক্সাইড (SiO₂) ত্রিমাত্রিক দৈত্যাকার নেটওয়ার্ক সলিড গঠন করে।"
+            },
+            {
+                id: 20,
+                question: "কোন যৌগটি সম্ভব নয়?",
+                options: ["AlN", "NCl₅", "Ca₃N₂", "PCl₅"],
+                correct: 1,
+                fact: "নাইট্রোজেনের d-অরবিটাল না থাকায় এটি পেন্টাক্লোরাইড (NCl₅) গঠন করতে পারে না।"
+            },
+            {
+                id: 21,
+                question: "কোন নিষ্ক্রিয় গ্যাসটি p-ব্লকের মৌল নয়?",
+                options: ["He", "Ne", "Ar", "Kr"],
+                correct: 0,
+                fact: "হিলিয়াম (He)-এর ইলেকট্রন বিন্যাস 1s², তাই এটি s-ব্লকের মৌল।"
+            },
+            {
+                id: 22,
+                question: "নিচের কোন মৌলটির জারণ সংখ্যা সর্বোচ্চ হতে পারে?",
+                options: ["V", "Co", "Cr", "Fe"],
+                correct: 2,
+                fact: "ক্রোমিয়াম (Cr) সর্বোচ্চ +6 জারণ মান প্রদর্শন করতে পারে।"
+            },
+            {
+                id: 23,
+                question: "বিজোড় ইলেকট্রন সংখ্যার ক্রম কোনটি সঠিক?",
+                options: ["Mn²⁺ > Fe²⁺ > Cr³⁺", "Mn²⁺ > Cr³⁺ > Fe²⁺", "Fe²⁺ > Cr³⁺ > Mn²⁺", "Cr³⁺ > Mn²⁺ > Fe²⁺"],
+                correct: 0,
+                fact: "Mn²⁺ এ ৫টি, Fe²⁺ এ ৪টি এবং Cr³⁺ এ ৩টি বিজোড় ইলেকট্রন থাকে।"
+            },
+            {
+                id: 24,
+                question: "Ni²⁺ আয়নে অযুগ্ম বা বিজোড় ইলেকট্রন সংখ্যা কয়টি?",
+                options: ["৮টি", "৬টি", "৪টি", "২টি"],
+                correct: 3,
+                fact: "Ni²⁺ এর d-অরবিटाলে দুটি বিজোড় ইলেকট্রন থাকে।"
+            },
+            {
+                id: 25,
+                question: "PH₄⁺ আয়নে কতটি ইলেকট্রন বিদ্যমান?",
+                options: ["20", "19", "18", "15"],
+                correct: 2,
+                fact: "P (15) + 4H (4) - 1 (positive charge) = 18টি ইলেকট্রন।"
+            },
+            {
+                id: 26,
+                question: "নিচের কোনটি প্যারামাগনেটিক?",
+                options: ["Zn", "Cu", "Ca", "Mg"],
+                correct: 1,
+                fact: "তামা বা এর আয়নসমূহে বিজোড় ইলেকট্রন থাকায় তা প্যারামাগনেটিক।"
+            },
+            {
+                id: 27,
+                question: "কোনটি Mn ধাতুর অস্থিতিশীল জারণ মান?",
+                options: ["+2", "+3", "+4", "+7"],
+                correct: 1,
+                fact: "ম্যাঙ্গানিজের কম স্থায়ী বা অস্থিতিশীল জারণ মান +3।"
+            },
+            {
+                id: 28,
+                question: "[Co(NH₃)₄Cl₂]Cl যৌগের Co এর সন্নিবেশ সংখ্যা কত?",
+                options: ["২", "৪", "৬", "৭"],
+                correct: 2,
+                fact: "কেন্দ্রীয় কোবাল্ট পরমাণুর সাথে মোট ৬টি লিগ্যান্ড যুক্ত থাকায় সন্নিবেশ সংখ্যা ৬।"
+            },
+            {
+                id: 29,
+                question: "[Cr(H₂O)₄Cl₂]Br এ Cr এর জারণ মান কত?",
+                options: ["+2", "+3", "-2", "+6"],
+                correct: 1,
+                fact: "যৌগটিতে ক্রোমিয়ামের জারণ মান +3।"
+            },
+            {
+                id: 30,
+                question: "[Cu(NH₃)₄]²⁺ এ Cu এবং NH₃ এর মধ্যে কোন ধরনের বন্ধন বিদ্যমান?",
+                options: ["আয়নিক বন্ধন", "সমযোজী বন্ধন", "সন্নিবেশ বন্ধন", "ধাতব বন্ধন"],
+                correct: 2,
+                fact: "নাইট্রোজেনের নিঃসঙ্গ ইলেকট্রন জোড় দানে সন্নিবেশ সমযোজী বন্ধন গঠিত হয়।"
+            },
+            {
+                id: 31,
+                question: "[Fe(CN)₆]⁴⁻ আয়নের কেন্দ্রীয় পরমাণুর কী ধরনের সংকরণ ঘটে?",
+                options: ["sp³d²", "sp³d", "sp³d³", "d²sp³"],
+                correct: 3,
+                fact: "অষ্টতলকীয় এই আয়নে d²sp³ অভ্যন্তরীণ অরবিটাল সংকরণ ঘটে।"
+            },
+            {
+                id: 32,
+                question: "নিচের কোন আয়নটি রঙিন যৌগ গঠন করে?",
+                options: ["Sc³⁺", "Mg²⁺", "Zn²⁺", "Ni²⁺"],
+                correct: 3,
+                fact: "নিকেল আয়ন (Ni²⁺)-এর d-অরবিटाলে অপূর্ণ ইলেকট্রন থাকায় রঙিন যৌগ গঠন করে।"
+            },
+            {
+                id: 33,
+                question: "কোনটি রঙিন যৌগ?",
+                options: ["Cu₂Cl₂", "CoCl₂", "ScCl₃", "MgCl₂"],
+                correct: 1,
+                fact: "কোবাল্ট ক্লোরাইড (CoCl₂) একটি রঙিন যৌগ।"
+            },
+            {
+                id: 34,
+                question: "নিচের কোনটির ক্ষেত্রে d-অরবিটালের অস্তিত্ব বিদ্যমান?",
+                options: ["K", "Ca", "Ar", "Sc"],
+                correct: 3,
+                fact: "স্ক্যান্ডিয়াম (Sc, পরমাণু সংখ্যা 21) থেকে 3d অরবিটালের পূরণ শুরু হয়।"
+            },
+            {
+                id: 35,
+                question: "নিচের কোন্ আয়নের আকার সবচেয়ে ছোটো হবে?",
+                options: ["F⁻", "O²⁻", "N³⁻", "Na⁺"],
+                correct: 3,
+                fact: "সোডিয়াম ক্যাটায়ন (Na⁺) ইলেকট্রন তాయগ করায় এর আকার সবচেয়ে ক্ষুদ্র।"
+            },
+            {
+                id: 36,
+                question: "নিচের কোন্ আয়নটির আকার সবচেয়ে ছোটো?",
+                options: ["Na⁺", "Mg²⁺", "Be²⁺", "Ca²⁺"],
+                correct: 2,
+                fact: "বেরিলিয়াম আয়ন (Be²⁺) ক্যাটায়নগুলোর মধ্যে সবচেয়ে ক্ষুদ্র।"
+            },
+            {
+                id: 37,
+                question: "আয়ন/পরমাণুর আকার সম্পর্কিত কোন ক্রমটি সঠিক?",
+                options: ["Al > Mg > Na", "Na > Ne > F", "Al³⁺ > Mg²⁺ > Na⁺", "Na⁺ > Mg²⁺ > Al³⁺"],
+                correct: 3,
+                fact: "সমইলেকট্রনীয় আয়নে আধান বাড়লে আকার হ্রাস পায়, তাই Na⁺ > Mg²⁺ > Al³⁺ সঠিক।"
+            },
+            {
+                id: 38,
+                question: "২য় পর্যায়ের মৌলের পরমাণুর ক্ষেত্রে নিচের কোনটির পারমাণবিক ব্যাসার্ধ সবচেয়ে বড়ো?",
+                options: ["1s² 2s² 2p³", "1s² 2s² 2p¹", "1s² 2s²", "1s² 2s¹"],
+                correct: 3,
+                fact: "পর্যায়ের শুরুতে থাকা লিথিয়াম (1s² 2s¹) এর পারমাণবিক ব্যাসার্ধ সবচেয়ে বড়ো।"
+            },
+            {
+                id: 39,
+                question: "নিচের কোনটির আকার সবচেয়ে ছোটো?",
+                options: ["O", "Al³⁺", "C", "Li"],
+                correct: 1,
+                fact: "অ্যালুমিনিয়াম ক্যাটায়ন (Al³⁺) ইলেকট্রন হারানোর ফলে অত্যন্ত ক্ষুদ্র আকার ধারণ করে।"
+            },
+            {
+                id: 40,
+                question: "দুটি মৌল A ও B। এদের পারমাণবিক ব্যাসার্ধ r_A ও r_B এবং সমযোজী বন্ধন দূরত্ব d_{AB} হলে কোনটি সঠিক?",
+                options: ["r_A + r_B = d_{AB}", "r_A + r_B < d_{AB}", "r_A + r_B > d_{AB}", "r_A - r_B = d_{AB}"],
+                correct: 0,
+                fact: "সমযোজী ব্যাসার্ধদ্বয়ের যোগফল বন্ধন দূরত্বের সমান হয়।"
+            },
+            {
+                id: 41,
+                question: "A ও B পরমাণুর ব্যাসার্ধ যথাক্রমে 37 pm ও 99 pm হলে AB সমযোজী যৌগের বন্ধন দূরত্ব কত?",
+                options: ["120 pm", "136 pm", "173 pm", "180 pm"],
+                correct: 1,
+                fact: "37 + 99 = 136 pm।"
+            },
+            {
+                id: 42,
+                question: "পর্যায় সারণিতে একই পর্যায়ে বাম হতে ডানদিকের মৌলগুলোর ক্ষেত্রে কোন তথ্যটি সঠিক?",
+                options: ["আয়নীকরণ শক্তি বৃদ্ধি পায়", "ইলেকট্রন আসক্তি হ্রাস পায়", "তড়িৎ-ঋণাত্মকতা অপরিবর্তিত থাকে", "পরমাণুর আকার বাড়তে থাকে"],
+                correct: 0,
+                fact: "বাম থেকে ডানে নিউক্লীয় চার্জ বাড়ায় আয়নীকরণ শক্তি বৃদ্ধি পায়।"
+            },
+            {
+                id: 43,
+                question: "ইলেকট্রন ত্যাগ করে ধনাত্মক আয়নে পরিণত হতে যে শক্তির প্রয়োজন হয়, তাকে কী বলে?",
+                options: ["ইলেকট্রন আসক্তি", "তড়িৎ-ঋণাত্মকতা", "আয়নিক পটেনসিয়াল", "আয়নীকরণ শক্তি"],
+                correct: 3,
+                fact: "গ্যাসীয় পরমাণু থেকে ইলেকট্রন অপসারণে প্রয়োজনীয় শক্তিকে আয়নীকরণ শক্তি বলে।"
+            },
+            {
+                id: 44,
+                question: "তৃতীয় পর্যায়ের প্রথম চারটি মৌলের কোন ধর্মটি ক্রমাগত বৃদ্ধি পায়?",
+                options: ["পারমাণবিক ব্যাসার্ধ", "আয়নীকরণ শক্তি", "মৌলের গলনাঙ্ক", "ধাতব ধর্ম"],
+                correct: 1,
+                fact: "তৃতীয় পর্যায়ে বাম থেকে ডানে আয়নীকরণ শক্তি ক্রমান্বয়ে বৃদ্ধি পায়।"
+            },
+            {
+                id: 45,
+                question: "কোনটির আয়নীকরণ শক্তি বেশি?",
+                options: ["কার্বন", "নাইট্রোজেন", "অক্সিজেন", "ফসফরাস"],
+                correct: 1,
+                fact: "নাইট্রোজেনের অর্ধপূর্ণ p-অরবিটালের স্থিতিশীলতার জন্য আয়নীকরণ শক্তি বেশি।"
+            },
+            {
+                id: 46,
+                question: "কোন মৌলের প্রথম আয়নীকরণ বিভব সবচেয়ে বেশি?",
+                options: ["Na", "K", "Rb", "Li"],
+                correct: 3,
+                fact: "গ্রুপ-1 এর উপরে থাকা লিথিয়াম (Li)-এর আয়নীকরণ বিভব সর্বোচ্চ।"
+            },
+            {
+                id: 47,
+                question: "আয়নীকরণ শক্তির সঠিক ক্রম কোনটি?",
+                options: ["E₁ < E₃ < E₂", "E₁ > E₂ > E₃", "E₃ > E₁ > E₂", "E₁ < E₂ < E₃"],
+                correct: 3,
+                fact: "পরবর্তী ইলেকট্রন অপসারণে ক্রমবর্ধমান শক্তির প্রয়োজন হয় ($E_1 < E_2 < E_3$)."
+            },
+            {
+                id: 48,
+                question: "আয়নীকরণ বিভবের ক্ষেত্রে কোনটি সঠিক?",
+                options: ["Be < B", "Mg < Al", "N < O", "S < P"],
+                correct: 3,
+                fact: "অর্ধপূর্ণ p-অরবিটালের কারণে ফসফরাসের আয়নীকরণ শক্তি সালফারের চেয়ে বেশি।"
+            },
+            {
+                id: 49,
+                question: "কোনটির আয়নীকরণ শক্তির মান সর্বনিম্ন?",
+                options: ["Na", "Mg", "Cs", "Ca"],
+                correct: 2,
+                fact: "সিজিয়াম (Cs) গ্রুপ-1 এর নিচে থাকায় এর আয়নীকরণ শক্তির মান সর্বনিম্ন।"
+            },
+            {
+                id: 50,
+                question: "উদ্দীপকের উল্লিখিত মৌলসমূহের সক্রিয়তার ক্রম কোনটি সঠিক?",
+                options: ["A > B > C > D", "D > C > B > A", "A > B > D > C", "D > C > A > B"],
+                correct: 1,
+                fact: "আয়নীকরণ বিভব ও পারমাণবিক সংখ্যার গ্রাফ অনুযায়ী সক্রিয়তার সঠিক ক্রম।"
+            },
+            {
+                id: 51,
+                question: "আয়নীকরণ বিভবের ক্ষেত্রে নিচের কোন ক্রমটি সঠিক?",
+                options: ["O < N < B < Be", "N < O < Be < B", "Be < B < O < N", "B < Be < O < N"],
+                correct: 2,
+                fact: "পর্যায় ২ এর মৌলসমূহের আয়নীকরণ শক্তির ব্যতিক্রমী ক্রম হলো Be < B < O < N।"
+            },
+            {
+                id: 52,
+                question: "হ্যালোজেনসমূহের ইলেকট্রন আসক্তির সঠিক ক্রম কোনটি?",
+                options: ["Cl > F > Br > I", "F > Cl > Br > I", "Cl > Br > F > I", "I > Br > Cl > F"],
+                correct: 0,
+                fact: "ফ্লোরিনের ইলেকট্রন ঘনত্ব বেশি হওয়ায় ক্লোরিনের ইলেকট্রন আসক্তি সবচেয়ে বেশি (Cl > F > Br > I)."
+            },
+            {
+                id: 53,
+                question: "কোনটির ইলেকট্রন আসক্তির মান সর্বনিম্ন?",
+                options: ["F", "O", "Ca", "Si"],
+                correct: 2,
+                fact: "ধাতব বৈশিষ্ট্যের কারণে ক্যালসিয়াম (Ca)-এর ইলেকট্রন আসক্তি অত্যন্ত কম।"
+            },
+            {
+                id: 54,
+                question: "চারটি হ্যালোজেনের ইলেকট্রন আসক্তির মান অনুযায়ী কোন্টির অ্যানায়ন গঠনের প্রবণতা বেশি হবে?",
+                options: ["F", "Br", "Cl", "I"],
+                correct: 2,
+                fact: "ক্লোরিনের ইলেকট্রন আসক্তি সর্বোচ্চ (-349 kJ/mol) হওয়ায় অ্যানায়ন গঠনের প্রবণতা বেশি।"
+            },
+            {
+                id: 55,
+                question: "কোন মৌলটির ইলেকট্রন আসক্তি সবচেয়ে বেশি?",
+                options: ["N", "Cl", "O", "F"],
+                correct: 1,
+                fact: "পর্যায় সারণিতে ক্লোরিন (Cl)-এর ইলেকট্রন আসক্তি সর্বোচ্চ।"
+            },
+            {
+                id: 56,
+                question: "ইলেকট্রন আসক্তির ক্ষেত্রে নিচের কোন ক্রমটি সঠিক?",
+                options: ["F > Cl > Br > I", "Cl > F > Br > I", "I > Br > Cl > F", "Cl > Br > I > F"],
+                correct: 1,
+                fact: "সঠিক ক্রমটি হলো Cl > F > Br > I।"
+            },
+            {
+                id: 57,
+                question: "পাউলিং স্কেলে অক্সিজেনের তড়িৎ-ঋণাত্মকতার মান কত?",
+                options: ["2.5", "3.0", "3.5", "4.0"],
+                correct: 2,
+                fact: "পাউলিং স্কেলে অক্সিজেনের তড়িৎ-ঋণাত্মকতা 3.5।"
+            },
+            {
+                id: 58,
+                question: "তড়িৎ-ঋণাত্মকতার ক্ষেত্রে সঠিক ক্রম হবে কোনটি?",
+                options: ["Mg > Al < Si", "Si < S < Na", "Na > Mg > Al", "Si < S < Cl"],
+                correct: 3,
+                fact: "তৃতীয় পর্যায়ে বাম থেকে ডানে তড়িৎ-ঋণাত্মকতা বৃদ্ধি পায় (Si < S < Cl)."
+            },
+            {
+                id: 59,
+                question: "A ও B দুটি মৌলের তড়িৎ-ঋণাত্মকতা যথাক্রমে 2.1 এবং 2.5 হলে, গঠিত যৌগের প্রকৃতি কিরূপ?",
+                options: ["সমযোজী", "আয়নিক", "সন্নিবেশ", "পোলার"],
+                correct: 0,
+                fact: "তড়িৎ-ঋণাত্মকতার পার্থক্য কম (0.4) হওয়ায় যৌগটি সমযোজী।"
+            },
+            {
+                id: 60,
+                question: "নিচের কোন মৌলটি অম্লীয় অক্সাইড ও অম্লীয় হাইড্রক্সাইড যৌগ গঠন করে?",
+                options: ["সোডিয়াম", "ম্যাগনেসিয়াম", "ফ্লোরিন", "সালফার"],
+                correct: 3,
+                fact: "সালফার অধাতু হওয়ায় অম্লীয় অক্সাইড ও অম্লীয় হাইড্রক্সাইড গঠন করে।"
+            },
+            {
+                id: 61,
+                question: "কোন অক্সাইডটি অম্লধর্মী?",
+                options: ["SiO₂", "Al₂O₃", "H₂O", "Na₂O"],
+                correct: 0,
+                fact: "সিলিকন ডাই-অক্সাইড (SiO₂) অম্লধর্মী অক্সাইড।"
+            },
+            {
+                id: 62,
+                question: "SiO₂ কোন ধর্মী অক্সাইড?",
+                options: ["অম্লীয়", "ক্ষারীয়", "উভধর্মী", "নিরপেক্ষ"],
+                correct: 0,
+                fact: "SiO₂ একটি দুর্বল অম্লধর্মী অক্সাইড।"
+            },
+            {
+                id: 63,
+                question: "নিচের কোন অক্সাইডটি সবচেয়ে বেশি অম্লধর্মী?",
+                options: ["SiO₂", "P₂O₃", "SO₃", "Cl₂O₇"],
+                correct: 3,
+                fact: "উচ্চ জারণ অবস্থার কারণে ক্লোরিনের অক্সাইড Cl₂O₇ সর্বাধিক অম্লধর্মী।"
+            },
+            {
+                id: 64,
+                question: "নিচের কোনটি সুপার অক্সাইড?",
+                options: ["KO₂", "Pb₃O₄", "MnO₂", "Na₂O₂"],
+                correct: 0,
+                fact: "পটাশিয়াম সুপার অক্সাইড (KO₂) একটি সুপার অক্সাইড।"
+            },
+            {
+                id: 65,
+                question: "কোন অক্সাইডটি সবচেয়ে বেশি অম্লধর্মী হবে?",
+                options: ["SiO₂", "Cl₂O₇", "P₂O₅", "SO₃"],
+                correct: 1,
+                fact: "Cl₂O₇ সবচেয়ে বেশি অম্লধর্মী।"
+            },
+            {
+                id: 66,
+                question: "কোন অক্সাইডটি উভধর্মী?",
+                options: ["MgO", "Al₂O₃", "CO₂", "Na₂O"],
+                correct: 1,
+                fact: "অ্যালুমিনিয়াম অক্সাইড (Al₂O₃) একটি সুপরিচিত উভধর্মী অক্সাইড।"
+            },
+            {
+                id: 67,
+                question: "উভধর্মী অক্সাইড নিচের কোনটি?",
+                options: ["BeO", "Na₂O", "CO₂", "MgO"],
+                correct: 0,
+                fact: "বেরিলিয়াম অক্সাইড (BeO) উভধর্মী অক্সাইড।"
+            },
+            {
+                id: 68,
+                question: "SO₂ অণুর কেন্দ্রীয় পরমাণুর সংকরণ অবস্থা কোনটি?",
+                options: ["sp³d", "sp³", "sp²", "sp"],
+                correct: 2,
+                fact: "SO₂ অণুতে সালফারের সংকরণ sp² (একটি নিঃসঙ্গ ইলেকট্রন জোড়সহ)।"
+            },
+            {
+                id: 69,
+                question: "NH₄⁺ আয়নে কেন্দ্রীয় পরমাণুর সংকরণ কীরূপ?",
+                options: ["sp", "sp²", "sp³", "sp³d"],
+                correct: 2,
+                fact: "অ্যামোনিয়াম আয়ন (NH₄⁺)-এ নাইট্রোজেনের সংকরণ sp³।"
+            },
+            {
+                id: 70,
+                question: "XeF₂ অণুর কেন্দ্রীয় পরমাণুতে কোন প্রকার সংকরণ ঘটে?",
+                options: ["sp", "sp²d", "sp³d²", "sp³d"],
+                correct: 3,
+                fact: "জেনন ডাইফ্লোরাইড (XeF₂)-এ জেননের সংকরণ sp³d।"
+            },
+            {
+                id: 71,
+                question: "গ্রাফাইটে কোন ধরনের সংকরণ ঘটে?",
+                options: ["sp³", "sp²", "sp", "sp³d"],
+                correct: 1,
+                fact: "গ্রাফাইটে কার্বন পরমাণুগুলো sp² সংকরিত থাকে।"
+            },
+            {
+                id: 72,
+                question: "NH₃ ও PH₄⁺ আয়নের সংকরায়ন কোনটি?",
+                options: ["sp", "sp²", "sp³", "sp³d"],
+                correct: 2,
+                fact: "উভয় ক্ষেত্রেই কেন্দ্রীয় পরমাণুর সংকরণ sp³।"
+            },
+            {
+                id: 73,
+                question: "যৌগের কেন্দ্রীয় পরমাণুটি d³sp³ সংকরিত হলে আকৃতি কীরূপ হয়?",
+                options: ["ত্রিকোণীয় দ্বি-পিরামিড", "পঞ্চভুজীয় দ্বি-পিরামিডীয়", "অষ্টতলকীয়", "সমতলীয় বর্গাকার"],
+                correct: 1,
+                fact: "d³sp³ বা sp³d³ সংকরায়ণে অণুর আকৃতি পঞ্চভুজীয় দ্বি-পিরামিডীয় হয়।"
+            },
+            {
+                id: 74,
+                question: "কোন সংকরায়ন হলে বন্ধন গঠিত হয়?",
+                options: ["sp³", "sp²", "dsp²", "d²sp²"],
+                correct: 0,
+                fact: "সাধারণ চতুস্তলকীয় সমযোজী অণুতে sp³ সংকরায়ন ঘটে।"
+            },
+            {
+                id: 75,
+                question: "C₂H₂ যৌগে C পরমাণুর কোন প্রকার সংকরণ ঘটেছে?",
+                options: ["dsp²", "sp³", "sp²", "sp"],
+                correct: 3,
+                fact: "ইথাইন (C₂H₂) যৌগে কার্বন-কার্বন ত্রিবন্ধন থাকায় sp সংকরায়ন ঘটে।"
+            },
+            {
+                id: 76,
+                question: "sp³ সংকরিত যৌগ নয় কোনটি?",
+                options: ["BF₃", "NH₃", "H₂O", "CH₄"],
+                correct: 0,
+                fact: "বোরন ট্রাইফ্লোরাইড (BF₃) এ sp² সংকরায়ন ঘটে।"
+            },
+            {
+                id: 77,
+                question: "বেনজিনে কয়টি বন্ধ বিদ্যমান?",
+                options: ["১২টি", "৯টি", "৬টি", "৩টি"],
+                correct: 3,
+                fact: "বেনজিন রিংয়ে ৩টি পাই ($\pi$) বন্ধন বিদ্যমান।"
+            },
+            {
+                id: 78,
+                question: "ইথিলিনে কার্বন-কার্বন কী সংকরণ বিদ্যমান?",
+                options: ["sp", "sp²", "sp³", "sp³d"],
+                correct: 1,
+                fact: "ইথিলিন (C₂H₄) যৌগে কার্বনে sp² সংকরণ থাকে।"
+            },
+            {
+                id: 79,
+                question: "নিচের কোন যৌগটিতে সঞ্চরণ অক্ষম পাই ($\pi$) ইলেকট্রন আছে?",
+                options: ["C₂H₄", "C₂H₆", "C₆H₆", "C₃H₈"],
+                correct: 0,
+                fact: "ইথিলিনে স্থানীয়কৃত বা সঞ্চরণ অক্ষম পাই বন্ধন থাকে।"
+            },
+            {
+                id: 80,
+                question: "নিচের কোনটি সন্নিবেশ বন্ধন গঠন করে না?",
+                options: ["H₂O", "NH₃", "BCl₃", "CCl₄"],
+                correct: 3,
+                fact: "কার্বন টেট্রাক্লোরাইড (CCl₄)-এ নিঃসঙ্গ ইলেকট্রন জোড় না থাকায় সন্নিবেশ বন্ধন গঠিত হয় না।"
+            },
+            {
+                id: 81,
+                question: "নিচের কোন যৌগটির গলনাঙ্ক সবচেয়ে কম?",
+                options: ["LiCl", "NaCl", "KCl", "CsCl"],
+                correct: 0,
+                fact: "ফাযানের নিয়ম অনুসারে LiCl এ সমযোজী বৈশিষ্ট্য বেশি থাকায় গলনাঙ্ক কম।"
+            },
+            {
+                id: 82,
+                question: "নিচের কোন যৌগটি অধিক সমযোজী?",
+                options: ["MgCl₂", "CaCl₂", "AlCl₃", "FeCl₃"],
+                correct: 2,
+                fact: "উচ্চ চার্জযুক্ত অ্যালুমিনিয়াম আয়ন (Al³⁺) থাকায় AlCl₃ অধিক সমযোজী।"
+            },
+            {
+                id: 83,
+                question: "H₂O অণুর বা পানির বন্ধন কোণ কত?",
+                options: ["104.5°", "107°", "109.5°", "180°"],
+                correct: 0,
+                fact: "পানির অণুর বন্ধন কোণ 104.5°।"
+            },
+            {
+                id: 84,
+                question: "কোন যৌগটির বন্ধন কোণ সবচেয়ে ছোটো?",
+                options: ["H₂O", "NCl₃", "H₂S", "PH₃"],
+                correct: 2,
+                fact: "হাইড্রোজেন সালফাইড (H₂S)-এ কেন্দ্রীয় পরমাণুর আকার বড় হওয়ায় বন্ধন কোণ প্রায় 92°।"
+            },
+            {
+                id: 85,
+                question: "নিচের কোনটির বন্ধন কোণ সবচেয়ে বেশি?",
+                options: ["মিথেন", "অ্যামোনিয়া", "পানি", "কার্বন ডাই-অক্সাইড"],
+                correct: 3,
+                fact: "কার্বন ডাই-অক্সাইড সরলরৈখিক হওয়ায় এর বন্ধন কোণ 180°।"
+            },
+            {
+                id: 86,
+                question: "SiCl₄, BF₃ ও NH₃ যৌগগুলোতে বন্ধন কোণের সঠিক ক্রম কোনটি?",
+                options: ["SiCl₄ > BF₃ > NH₃", "NH₃ > BF₃ > SiCl₄", "BF₃ > NH₃ > SiCl₄", "BF₃ > SiCl₄ > NH₃"],
+                correct: 2,
+                fact: "ত্রিকোণীয় সমতলীয় (BF₃, 120°) > পিরামিডীয় (NH₃, 107°) > চতুস্তলকীয় (SiCl₄, 109.5°) তুলনামূলক ক্রম।"
+            },
+            {
+                id: 87,
+                question: "NCl₃ অণুর আকৃতি কীরূপ?",
+                options: ["ত্রিভুজাকার", "পিরামিডীয়", "চতুস্তলکীয়", "কৌণিক"],
+                correct: 1,
+                fact: "অ্যামোনিয়ার মতো NCl₃ অণুর আকৃতি পিরামিডীয়।"
+            },
+            {
+                id: 88,
+                question: "CH₄, NH₃, H₂S ও H₂O এর বন্ধন কোণের ক্রম কোনটি?",
+                options: ["NH₃ > CH₄ > H₂O > H₂S", "CH₄ > NH₃ > H₂O > H₂S", "H₂O > NH₃ > CH₄ > H₂S", "CH₄ > H₂O > NH₃ > H₂S"],
+                correct: 1,
+                fact: "মিথেন (109.5°) > অ্যামোনিয়া (107°) > পানি (104.5°) > হাইড্রোজেন সালফাইড (92°)।"
+            },
+            {
+                id: 89,
+                question: "PCl₅ অণুর গঠন কী রূপ?",
+                options: ["ত্রিকোণাকার দ্বি-পিরামিডীয়", "অষ্টতলকীয়", "সমতলীয় ত্রিকোণাকার", "চতুণ্ডলকীয়"],
+                correct: 0,
+                fact: "PCl₅ অণুর গঠন ত্রিকোণাকার দ্বি-পিরামিডীয়।"
+            },
+            {
+                id: 90,
+                question: "বন্ধন কোণের কোন ক্রমটি সঠিক?",
+                options: ["NH₃ > PH₃ > AsH₃ > SbH₃", "PH₃ > AsH₃ > SbH₃ > NH₃", "AsH₃ > SbH₃ > NH₃ > PH₃", "SbH₃ > NH₃ > PH₃ > AsH₃"],
+                correct: 0,
+                fact: "গ্রুপের নিচে কেন্দ্রীয় পরমাণুর আকার বাড়ায় বন্ধন কোণ হ্রাস পায়।"
+            },
+            {
+                id: 91,
+                question: "XeF₆ যৌগে মুক্তজোড় ইলেকট্রনের সংখ্যা কয়টি?",
+                options: ["১টি", "২টি", "৩টি", "৪টি"],
+                correct: 0,
+                fact: "XeF₆ যৌগে জেননের যোজ্যতা স্তরে ১ জোড়া মুক্তজোড় ইলেকট্রন থাকে।"
+            },
+            {
+                id: 92,
+                question: "নিচের কোন যৌগের অণুতে মুক্ত জোড় ইলেকট্রন বা নিঃসঙ্গ ইলেকট্রনযুগল সংখ্যা সর্বাধিক?",
+                options: ["HCl", "NH₃", "H₂O", "H₂S"],
+                correct: 2,
+                fact: "পানির অণুতে অক্সিজেন পরমাণুতে ২টি মুক্তজোড় ইলেকট্রন থাকে।"
+            },
+            {
+                id: 93,
+                question: "NH₃ অণুর জ্যামিতিক আকৃতি বিকৃত চতুস্তলকীয় হওয়ার কারণ কী?",
+                options: ["বন্ধন জোড়-বন্ধন জোড় ইলেকট্রন বিকর্ষণ", "বন্ধন জোড়-মুক্ত জোড় ইলেকট্রনের আকর্ষণ", "বন্ধন জোড়-মুক্ত জোড় ইলেকট্রনের বিকর্ষণ", "বন্ধন জোড়-বন্ধন জোড় ইলেকট্রনের আকর্ষণ"],
+                correct: 2,
+                fact: "নিঃসঙ্গ জোড় ও বন্ধন জোড় ইলেকট্রনের বিকর্ষণের ফলে কোণ কমে যায়।"
+            },
+            {
+                id: 94,
+                question: "নিচের কোনটির গলনাঙ্ক কম?",
+                options: ["NaCl", "AlCl₃", "KCl", "CaCl₂"],
+                correct: 1,
+                fact: "সমযোজী প্রকৃতির হওয়ায় AlCl₃ এর গলনাঙ্ক কম।"
+            },
+            {
+                id: 95,
+                question: "NaCl এর গলনাঙ্ক কত?",
+                options: ["776°C", "801°C", "826°C", "862°C"],
+                correct: 1,
+                fact: "সোডিয়াম ক্লোরাইডের গলনাঙ্ক 801°C।"
+            },
+            {
+                id: 96,
+                question: "নিচের কোন যৌগটির গলনাঙ্ক ও স্ফুটনাঙ্কের মান সবচেয়ে বেশি?",
+                options: ["CaCl₂", "FeCl₂", "CuCl₂", "ZnCl₂"],
+                correct: 0,
+                fact: "আয়নিক চরিত্র ও ল্যাটিস শক্তির কারণে CaCl₂ এর গলনাঙ্ক বেশি।"
+            },
+            {
+                id: 97,
+                question: "নিচের কোন আয়নটি অ্যানায়নকে অধিক পোলারিত করতে পারবে?",
+                options: ["Na⁺", "Mg²⁺", "Al³⁺", "Fe³⁺"],
+                correct: 3,
+                fact: "উচ্চ চার্জযুক্ত Fe³⁺ আয়ন অ্যানায়নকে অধিক পোলারিত করে।"
+            },
+            {
+                id: 98,
+                question: "নিচের কোন আয়নিক যৌগটিতে সবচেয়ে বেশি পোলারায়ন ঘটে?",
+                options: ["BeCl₂", "MgCl₂", "NaCl", "AlCl₃"],
+                correct: 3,
+                fact: "AlCl₃ এ ক্যাটায়নের চার্জ বেশি হওয়ায় পোলারায়ন সবচেয়ে বেশি ঘটে।"
+            },
+            {
+                id: 99,
+                question: "নিচের কোন আয়নের পোলারায়ন কম ঘটে?",
+                options: ["Cl⁻", "F⁻", "Br⁻", "I⁻"],
+                correct: 1,
+                fact: "ছোট আকার ও কম পোলারেবল হওয়ায় ফ্লোরাইড আয়ন (F⁻) এর পোলারায়ন কম।"
+            },
+            {
+                id: 100,
+                question: "নিচের কোন সালফেট লবণ পানিতে অদ্রবণীয়?",
+                options: ["CuSO₄", "Na₂SO₄", "Al₂(SO₄)₃", "BaSO₄"],
+                correct: 3,
+                fact: "বেিয়াম সালফেট (BaSO₄) পানিতে অদ্রবণীয়।"
+            },
+            {
+                id: 101,
+                question: "আয়নিক বন্ধনে ক্যাটায়নের পোলারায়ন ক্ষমতার সঠিক ক্রম কোনটি?",
+                options: ["H⁺ > Na⁺ > K⁺", "H⁺ > K⁺ > Na⁺", "K⁺ > Na⁺ > H⁺", "Na⁺ > K⁺ > H⁺"],
+                correct: 0,
+                fact: "ক্ষুদ্র আকার ও উচ্চ চার্জ ঘনত্বের কারণে H⁺ > Na⁺ > K⁺ সঠিক।"
+            },
+            {
+                id: 102,
+                question: "নিচের কোনটির অণুতে পোলারায়ন বেশি ঘটে?",
+                options: ["AgF", "CsF", "AgBr", "AgI"],
+                correct: 3,
+                fact: "বড় আকারের আয়োডাইড আয়ন থাকায় AgI-এ পোলারায়ন সবচেয়ে বেশি।"
+            },
+            {
+                id: 103,
+                question: "নিম্নের যৌগগুলোর কোনটিতে সমযোজী বৈশিষ্ট্য সবচেয়ে বেশি?",
+                options: ["NaCl", "AgCl", "CaCl₂", "AlCl₃"],
+                correct: 3,
+                fact: "উচ্চ চার্জের ক্যাটায়নযুক্ত AlCl₃ এ সমযোজী বৈশিষ্ট্য সবচেয়ে বেশি।"
+            },
+            {
+                id: 104,
+                question: "নিচের কোন যৌগের সমযোজী বৈশিষ্ট্য অধিক?",
+                options: ["AgCl", "AgF", "AgI", "AgBr"],
+                correct: 2,
+                fact: "আয়োডাইড আয়নের আকার বড় হওয়ায় AgI অধিক সমযোজী।"
+            },
+            {
+                id: 105,
+                question: "নিচের কোন যৌগটি অধিক সমযোজী?",
+                options: ["LiCl", "NaCl", "KCl", "CsCl"],
+                correct: 0,
+                fact: "লিথিয়ামের ক্ষুদ্র আকারের জন্য LiCl অধিক সমযোজী।"
+            },
+            {
+                id: 106,
+                question: "কোনটি পোলার অণু?",
+                options: ["CH₄", "CCl₄", "H₂O", "HI"],
+                correct: 2,
+                fact: "পানি (H₂O) একটি সুপরিচিত পোলার অণু।"
+            },
+            {
+                id: 107,
+                question: "নিচের কোনটি অপোলার যৌগ?",
+                options: ["CCl₄", "CHCl₃", "CH₃OH", "HF"],
+                correct: 0,
+                fact: "প্রতিসম চতুস্তলকীয় গঠন হওয়ায় কার্বন টেট্রাক্লোরাইড (CCl₄) অপোলার।"
+            },
+            {
+                id: 108,
+                question: "হাইড্রোজেন বন্ধন থাকে কোনটিতে?",
+                options: ["NH₃", "CH₄", "H₂S", "HI"],
+                correct: 0,
+                fact: "অ্যামোনিয়া (NH₃) অণুতে হাইড্রোজেন বন্ধন বিদ্যমান।"
+            },
+            {
+                id: 109,
+                question: "নিচের কোন যৌগে H-বন্ধন থাকে?",
+                options: ["HCl", "H₂S", "CH₃COOH", "CHCl₃"],
+                correct: 2,
+                fact: "ইথানয়িক এসিড (CH₃COOH) অণুতে শক্তিশালী হাইড্রোজেন বন্ধন থাকে।"
+            },
+            {
+                id: 110,
+                question: "ইথানয়িক এসিডের ডাইমারে কয়টি হাইড্রোজেন বন্ধন বিদ্যমান?",
+                options: ["1", "2", "3", "4"],
+                correct: 1,
+                fact: "ইথানয়িক এসিডের ডাইমারে ২টি হাইড্রোজেন বন্ধন গঠিত হয়।"
+            },
+            {
+                id: 111,
+                question: "H-বন্ধন ঘটে না নিচের কোন যৌগে?",
+                options: ["CH₄", "NH₃", "HF", "H₂O"],
+                correct: 0,
+                fact: "মিথেন (CH₄) অণুতে কোনো হাইড্রোজেন বন্ধন গঠিত হয় না।"
+            },
+            {
+                id: 112,
+                question: "নিচের কোন যৌগে অন্তঃআণবিক H বন্ধন আছে?",
+                options: ["স্যালিসাইলিক এসিড", "পানি", "ফেনল", "অ্যামোনিয়া"],
+                correct: 0,
+                fact: "স্যালিসাইলিক এসিডে অন্তঃআণবিক হাইড্রোজেন বন্ধন থাকে।"
+            },
+            {
+                id: 113,
+                question: "ভ্যান্ডার ওয়ালস আকর্ষণ বলের অণুসমূহ কীরূপ হয়?",
+                options: ["পোলার সমযোজী", "অপোলার সমযোজী", "আয়নিক", "ডাইপোল"],
+                correct: 1,
+                fact: "সাধারণত অপোলার সমযোজী অণুগুলোর মধ্যে ভ্যান্ডার ওয়ালস বল কাজ করে।"
+            },
+            {
+                id: 114,
+                question: "পোলারায়ন প্রক্রিয়ার সাথে সম্পর্কিত যৌগ কোনটি?",
+                options: ["H-বন্ধনযুক্ত যৌগ", "সমযোজী যৌগ", "সন্নিবেশ যৌগ", "আয়নিক যৌগ"],
+                correct: 3,
+                fact: "আয়নিক যৌগের সমযোজী বৈশিষ্ট্য প্রকাশ পায় পোলারায়নের মাধ্যমে।"
+            },
+            {
+                id: 115,
+                question: "নিচের কোনটি সঠিক হবে?",
+                options: ["আকারের সঠিক ক্রম Mg²⁺ > Na⁺ > Al³⁺", "Al₂O₃ এর অম্লত্ব হলো 3", "C₂H₆ যৌগে সিগমা বন্ধন 6টি", "অর্থোনাইট্রোফেনলে অন্তঃআণবিক H-বন্ধন আছে"],
+                correct: 3,
+                fact: "অর্থোনাইট্রোফেনলে অন্তঃআণবিক হাইড্রোজেন বন্ধন বিদ্যমান।"
+            },
+            {
+                id: 116,
+                question: "হাইড্রাসিডের তীব্রতা কিসের ওপর নির্ভর করে?",
+                options: ["কেন্দ্রীয় পরমাণুর জারণ সংখ্যা", "কেন্দ্রীয় পরমাণুর চার্জ ঘনত্ব", "অ্যানায়নের আকার", "ক্যাটায়নের আকার"],
+                correct: 2,
+                fact: "হাইড্রাসিডের তীব্রতা অ্যানায়নের আকারের ওপর নির্ভর করে।"
+            },
+            {
+                id: 117,
+                question: "নিচের কোনটি সাধারণ অবস্থায় তরল?",
+                options: ["F₂", "Cl₂", "Br₂", "I₂"],
+                correct: 2,
+                fact: "ব্রোমিন (Br₂) সাধারণ তাপমাত্রায় তরল হ্যালোজেন।"
+            },
+            {
+                id: 118,
+                question: "পানিগ্রাহী পদার্থ কোনটি?",
+                options: ["NaCl", "CaCl₂", "MgCl₂", "ZnCl₂"],
+                correct: 1,
+                fact: "ক্যালসিয়াম ক্লোরাইড (CaCl₂) একটি উৎকৃষ্ট পানিগ্রাহী পদার্থ।"
+            },
+            {
+                id: 119,
+                question: "নিচের এসিডগুলোর মধ্যে কোনটি 'পাইরো' এসিড?",
+                options: ["HClO₄", "H₃PO₃", "H₂SO₄", "H₂S₂O₇"],
+                correct: 3,
+                fact: "পাইরো সালফিউরিক এসিড (H₂S₂O₇) একটি পাইরো এসিড।"
+            },
+            {
+                id: 120,
+                question: "নিচের এসিডগুলোর মধ্যে কোনটি 'হাইপো' এসিড?",
+                options: ["H₃PO₃", "H₃PO₂", "H₃PO₄", "HPO₃"],
+                correct: 1,
+                fact: "H₃PO₂ হলো হাইপোফসফরাস এসিড।"
+            },
+            {
+                id: 121,
+                question: "হাইড্রোনিয়াম আয়নে কোন্ কোন্ বন্ধন বিদ্যমান?",
+                options: ["আয়নিক ও সমযোজী", "সমযোজী ও সন্নিবেশ", "আয়নিক ও সন্নিবেশ", "আয়নিক ও H-বন্ধন"],
+                correct: 1,
+                fact: "হাইড্রোনিয়াম আয়ন (H₃O⁺) এ সমযোজী এবং সন্নিবেশ বন্ধন বিদ্যমান।"
+            },
+            {
+                id: 122,
+                question: "নিচের কোন যৌগের আকৃতি সরলরৈখিক?",
+                options: ["কার্বন ডাইঅক্সাইড", "জেনন টেট্রাফ্লোরাইড", "ফসফরাস পেন্টাক্লোরাইড", "বোরন ট্রাইফ্লোরাইড"],
+                correct: 0,
+                fact: "কার্বন ডাইঅক্সাইড (CO₂) সরলরৈখিক আকৃতির।"
+            },
+            {
+                id: 123,
+                question: "কোনটি রাসায়নিক বৈশিষ্ট্য?",
+                options: ["ঘনত্ব", "দ্রাব্যতা", "অম্লত্ব", "গলনাঙ্ক"],
+                correct: 2,
+                fact: "অম্লত্ব একটি রাসায়নিক ধর্ম।"
+            },
+            {
+                id: 124,
+                question: "নিচের কোন বন্ধনের উপস্থিতির কারণে পানি কক্ষতাপমাত্রায় তরল?",
+                options: ["আয়নিক বন্ধন", "সমযোজী বন্ধন", "সন্নিবেশ বন্ধন", "H-বন্ধন"],
+                correct: 3,
+                fact: "আন্তঃআণবিক হাইড্রোজেন বন্ধনের কারণে পানি কক্ষতাপমাত্রায় তরল।"
+            },
+            {
+                id: 125,
+                question: "নিচের কোনটি অধিক শক্তিশালী ক্ষার?",
+                options: ["NaOH", "KOH", "Ca(OH)₂", "NH₄OH"],
+                correct: 1,
+                fact: "পটাশিয়াম হাইড্রোক্সাইড (KOH) অধিক শক্তিশালী ক্ষার।"
+            },
+            {
+                id: 126,
+                question: "নিচের কোনটি রঙিন আয়ন হবে?",
+                options: ["Ca²⁺", "Ni²⁺", "Hg²⁺", "Zn²⁺"],
+                correct: 1,
+                fact: "নিকেল আয়ন (Ni²⁺) রঙিন আয়ন।"
+            },
+            {
+                id: 127,
+                question: "নিচের কোনটির জারণ ক্ষমতা বেশি বা অধিক জারণধর্মী?",
+                options: ["F₂", "Cl₂", "I₂", "Br₂"],
+                correct: 0,
+                fact: "ফ্লোরিন (F₂)-এর জারণ ক্ষমতা সবচেয়ে বেশি।"
+            },
+            {
+                id: 128,
+                question: "নিচের কোন যৌগটির গঠন আকৃতি চতুস্তলকীয় নয়?",
+                options: ["CCl₄", "NH₄⁺", "CH₄", "SF₄"],
+                correct: 3,
+                fact: "সালফার টেট্রাফ্লোরাইড (SF₄)-এর আকৃতি সি-স (seesaw), চতুস্তলকীয় নয়।"
+            },
+            {
+                id: 129,
+                question: "CH₃-CH=CH₂ যৌগে কার্বন পরমাণুগুলোর সংকরণ কীরূপ?",
+                options: ["sp, sp²", "sp, sp³", "sp², sp³", "sp, sp², sp³"],
+                correct: 2,
+                fact: "প্রোপিন যৌগে sp² ও sp³ সংকরিত কার্বন পরমাণু রয়েছে।"
+            },
+            {
+                id: 130,
+                question: "গ্যাসীয় অবস্থায় এক মোল পরমাণুতে এক মোল ইলেকট্রন যুক্ত হলে যে শক্তির পরিবর্তন হয় তাকে কী বলে?",
+                options: ["ইলেকট্রোনেগেটিভিটি", "২য় ইলেকট্রন আসক্তি", "১ম ইলেকট্রন আসক্তি", "১ম আয়নীকরণ শক্তি"],
+                correct: 2,
+                fact: "এটি ১ম ইলেকট্রন আসক্তির সংজ্ঞা।"
+            },
+            {
+                id: 131,
+                question: "নিচের কোন মৌলটির আয়নীকরণ শক্তি সবচেয়ে বেশি?",
+                options: ["Na", "K", "Rb", "Cs"],
+                correct: 0,
+                fact: "গ্রুপ-1 এ উপরে অবস্থিত সোডিয়াম (Na)-এর আয়নীকরণ শক্তি তুলনামূলক বেশি।"
+            },
+            {
+                id: 132,
+                question: "নিচের কোন মৌলটি f-ব্লক মৌল নয়?",
+                options: ["Ce", "Th", "Np", "Sm"],
+                correct: 1,
+                fact: "ল্যান্থানাইড ও অ্যাক্টিনাইড সিরিজের বাইরে বা নির্দিষ্ট মানদণ্ড অনুযায়ী f-ব্লক বহির্ভূত মৌল।"
+            },
+            {
+                id: 133,
+                question: "নিচের কোন বন্ধনটি সবচেয়ে দুর্বল বা কম শক্তি সম্পন্ন?",
+                options: ["আয়নিক বন্ধন", "সমযোজী বন্ধন", "ধাতব বন্ধন", "সন্নিবেশ বন্ধন"],
+                correct: 3,
+                fact: "অন্যান্য সব সবল বন্ধনের তুলনায় সন্নিবেশ বন্ধন কিছুটা দুর্বল প্রকৃতির হতে পারে।"
+            },
+            {
+                id: 134,
+                question: "নিচের কোনটি পানিতে দ্রবণীয়?",
+                options: ["CaCO₃", "ZnCO₃", "Pb(NO₃)₂", "কোনটিই নয়"],
+                correct: 2,
+                fact: "লেড নাইট্রেট [Pb(NO₃)₂] পানিতে দ্রবণীয়।"
+            },
+            {
+                id: 135,
+                question: "নিচের কোন যৌগটিতে সবচেয়ে শক্তিশালী H-বন্ধন থাকে?",
+                options: ["ইথানল", "ইথানোয়িক এসিড", "পানি", "অ্যামোনিয়া"],
+                correct: 2,
+                fact: "পানির অণুতে অধিক তড়িৎ-ঋণাত্মক অক্সিজেন থাকায় শক্তিশালী হাইড্রোজেন বন্ধন থাকে।"
+            },
+            {
+                id: 136,
+                question: "CH₂=CHCH₂CHO যৌগটিতে যথাক্রমে $\pi$ এবং $\sigma$ বন্ধনের সংখ্যা কত?",
+                options: ["9, 2", "8, 4", "10, 1", "10, 2"],
+                correct: 0,
+                fact: "যৌগটিতে মোট সিগমা ও পাই বন্ধন গণনার সঠিক মান 9, 2।"
+            },
+            {
+                id: 137,
+                question: "অ্যালুমিনিয়াম ক্লোরাইড কীরূপে থাকে?",
+                options: ["মনোমার", "ডাইমার", "ট্রাইমার", "পলিমার"],
+                correct: 1,
+                fact: "বাস্পীয় অবস্থায় অ্যালুমিনিয়াম ক্লোরাইড ডাইমার (Al₂Cl₆) হিসেবে থাকে।"
+            },
+            {
+                id: 138,
+                question: "স্ফুটনাঙ্কের ক্রম অনুসারে নিচের কোন সেট সঠিক?",
+                options: ["CH₄ < NH₃ < H₂O < HF", "NH₃ < CH₄ < H₂O < HF", "HF < CH₄ < NH₃ < H₂O", "CH₄ < NH₃ < HF < H₂O"],
+                correct: 3,
+                fact: "স্ফুটনাঙ্কের সঠিক ক্রম CH₄ < NH₃ < HF < H₂O।"
+            },
+            {
+                id: 139,
+                question: "নিচের কোন অক্সাইড পানিতে মিশালে সবচেয়ে বেশি অম্লীয় দ্রবণ তৈরি করে?",
+                options: ["CO", "CO₂", "SiO₂", "P₂O₅"],
+                correct: 3,
+                fact: "ফসফরাস পেন্টাঅক্সাইড (P₂O₅) পানিতে মিশে শক্তিশালী ফসফরিক এসিড তৈরি করে।"
+            },
+            {
+                id: 140,
+                question: "নিচের কোন অক্সাইডটি শুষ্ককারক হিসেবে কাজ করে?",
+                options: ["N₂O₅", "P₂O₅", "Cl₂O₅", "V₂O₅"],
+                correct: 1,
+                fact: "ফসফরাস পেন্টাঅক্সাইড (P₂O₅) একটি শক্তিশালী শুষ্ককারক।"
+            },
+            {
+                id: 141,
+                question: "PCl₅ এ কোন ধরনের সংকরণ বা হাইব্রিডাইজেশন বিদ্যমান?",
+                options: ["sp", "sp²", "sp³", "sp³d"],
+                correct: 3,
+                fact: "PCl₅ এ ফসফরাসের সংকরণ sp³d।"
+            },
+            {
+                id: 142,
+                question: "[Cu(NH₃)₄]Cl₂ যৌগে মোট কয়টি বন্ধন বিদ্যমান?",
+                options: ["6", "৮", "14", "18"],
+                correct: 3,
+                fact: "সমন্বিত বন্ধন ও আয়নিক আকর্ষণ মিলিয়ে মোট ১৮টি বন্ধন/আকর্ষণ বিদ্যমান।"
+            },
+            {
+                id: 143,
+                question: "বেনজিনে সিগমা বন্ধন কয়টি?",
+                options: ["10 টি", "12 টি", "14 টি", "16 টি"],
+                correct: 1,
+                fact: "বেনজিনে মোট ১২টি সিগমা বন্ধন থাকে (৬টি C-C এবং ৬টি C-H)।"
+            },
+            {
+                id: 144,
+                question: "কোনটির আয়নিক ব্যাসার্ধ সবচেয়ে ছোটো?",
+                options: ["O²⁻", "Na⁺", "Al³⁺", "Mg²⁺"],
+                correct: 2,
+                fact: "সমইলেকট্রনীয় আয়নগুলোর মধ্যে উচ্চ ধনাত্মক আধানযুক্ত Al³⁺ এর ব্যাসার্ধ সবচেয়ে ছোটো।"
+            },
+            {
+                id: 145,
+                question: "Ca₃N₂ + 3H₂O ⟶ 3Ca(OH)₂ + X; এক্ষেত্রে X যৌগটি কী?",
+                options: ["NO₂", "HNO₃", "N₂", "NH₃"],
+                correct: 3,
+                fact: "বিক্রিয়ায় উৎপন্ন গ্যাসটি হলো অ্যামোনিয়া (NH₃)।"
+            },
+            {
+                id: 146,
+                question: "BeCl₂ যৌগের অণুর বন্ধন কোণ কত?",
+                options: ["104.5°", "107°", "109°", "180°"],
+                correct: 3,
+                fact: "সরলরৈখিক হওয়ায় BeCl₂ এর বন্ধন কোণ 180°।"
+            },
+            {
+                id: 147,
+                question: "কোনটির গলনাঙ্ক সবচেয়ে কম?",
+                options: ["AgF", "AgCl", "AgBr", "AgI"],
+                correct: 3,
+                fact: "সর্বাধিক পোলারায়ন ও সমযোজী বৈশিষ্ট্যের কারণে AgI-এর গলনাঙ্ক সবচেয়ে কম।"
+            },
+            {
+                id: 148,
+                question: "বরফের গঠনে একটি অক্সিজেন পরমাণুতে কয়টি H-বন্ধন বিদ্যমান?",
+                options: ["2", "3", "4", "5"],
+                correct: 0,
+                fact: "বরফের ত্রিমাত্রিক কেলাসে অক্সিজেন পরমাণু দুটি সমযোজী ও দুটি হাইড্রোজেন বন্ধন গঠন করে।"
+            },
+            {
+                id: 149,
+                question: "নিচের কোন যৌগে অক্সিজেনের জারণ সংখ্যা -½ হয়?",
+                options: ["Na₂O₂", "H₂O₂", "K₂O", "KO₂"],
+                correct: 3,
+                fact: "সুপার অক্সাইডে (KO₂) অক্সিজেনের জারণ সংখ্যা -½।"
+            },
+            {
+                id: 150,
+                question: "পানিতে নিচের কোন পদার্থের দ্রাব্যতা বেশি?",
+                options: ["NaCl", "CaCl₂", "BaCl₂", "AlCl₃"],
+                correct: 0,
+                fact: "সাধারণ লবণের (NaCl) পানিতে দ্রাব্যতা অত্যন্ত সুপরিচিত।"
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        // Bookmarks are saved in this browser automatically. Use backup/restore to transfer them.
+                const BOOKMARK_STORAGE_KEY = 'chem_c03_periodic_bonding_bookmarks_v1';
+                const BOOKMARK_QUIZ_KEY = 'chem_c03_periodic_bonding';
+                const BOOKMARK_QUIZ_TITLE = 'মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন (C-03)';
+                let bookmarkedQuestionIds = loadBookmarkedQuestionIds();
+        
+                function loadBookmarkedQuestionIds() {
+                    try {
+                        const saved = JSON.parse(localStorage.getItem(BOOKMARK_STORAGE_KEY) || '[]');
+                        if (!Array.isArray(saved)) return [];
+                        const validIds = new Set(quizData.map(q => q.id));
+                        return [...new Set(saved.map(Number).filter(id => Number.isInteger(id) && validIds.has(id)))];
+                    } catch (error) {
+                        console.warn('Could not load saved bookmarks:', error);
+                        return [];
+                    }
+                }
+        
+                function saveBookmarkedQuestionIds() {
+                    try {
+                        localStorage.setItem(BOOKMARK_STORAGE_KEY, JSON.stringify(bookmarkedQuestionIds));
+                        return true;
+                    } catch (error) {
+                        alert('এই ব্রাউজারে বুকমার্ক স্বয়ংক্রিয়ভাবে সংরক্ষণ করা যায়নি। ব্যাকআপ ডাউনলোড করে রাখুন।');
+                        console.error('Could not save bookmarks:', error);
+                        return false;
+                    }
+                }
+        
+                function toggleCurrentBookmark() {
+                    const question = quizData[currentQuestionIdx];
+                    if (!question) return;
+                    if (bookmarkedQuestionIds.includes(question.id)) {
+                        bookmarkedQuestionIds = bookmarkedQuestionIds.filter(id => id !== question.id);
+                    } else {
+                        bookmarkedQuestionIds.push(question.id);
+                    }
+                    saveBookmarkedQuestionIds();
+                    updateBookmarkUI();
+                }
+        
+                function updateBookmarkUI() {
+                    const question = quizData[currentQuestionIdx];
+                    const button = document.getElementById('bookmark-current-btn');
+                    if (button && question) {
+                        const saved = bookmarkedQuestionIds.includes(question.id);
+                        button.textContent = saved ? '★ বুকমার্ক করা হয়েছে' : '☆ বুকমার্ক করুন';
+                        button.setAttribute('aria-pressed', String(saved));
+                        button.className = saved
+                            ? 'animated-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-semibold bg-amber-500/20 text-amber-200 hover:bg-amber-500/30 border border-amber-400/50'
+                            : 'animated-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-semibold bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/30';
+                    }
+        
+                    const list = document.getElementById('bookmark-list');
+                    const count = document.getElementById('bookmark-count');
+                    if (!list || !count) return;
+                    count.textContent = bookmarkedQuestionIds.length;
+                    list.innerHTML = '';
+                    if (bookmarkedQuestionIds.length === 0) {
+                        const empty = document.createElement('p');
+                        empty.className = 'text-sm text-slate-500 py-3 text-center';
+                        empty.textContent = 'এখনও কোনো প্রশ্ন বুকমার্ক করা হয়নি।';
+                        list.appendChild(empty);
+                        return;
+                    }
+        
+                    bookmarkedQuestionIds
+                        .map(id => quizData.find(q => q.id === id))
+                        .filter(Boolean)
+                        .sort((a, b) => a.id - b.id)
+                        .forEach(q => {
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'w-full text-left p-3 rounded-xl bg-slate-900/70 hover:bg-amber-500/10 border border-slate-800 hover:border-amber-500/40 transition-colors';
+                            const number = document.createElement('span');
+                            number.className = 'block text-xs font-bold text-amber-300 mb-1';
+                            number.textContent = '★ প্রশ্ন ' + q.id;
+                            const text = document.createElement('span');
+                            text.className = 'block text-sm text-slate-200 leading-relaxed';
+                            text.textContent = q.question;
+                            btn.append(number, text);
+                            btn.addEventListener('click', () => jumpToQuestion(quizData.findIndex(item => item.id === q.id)));
+                            list.appendChild(btn);
+                        });
+                }
+        
+                function exportBookmarks() {
+                    const backup = {
+                        version: 1,
+                        quizKey: BOOKMARK_QUIZ_KEY,
+                        quiz: BOOKMARK_QUIZ_TITLE,
+                        exportedAt: new Date().toISOString(),
+                        bookmarks: bookmarkedQuestionIds
+                    };
+                    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'Ch-3-C03-bookmarks-backup.json';
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                }
+        
+                function importBookmarks(event) {
+                    const file = event.target.files && event.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        try {
+                            const data = JSON.parse(String(reader.result || ''));
+                            if (!Array.isArray(data)) {
+                                if ((data.quizKey && data.quizKey !== BOOKMARK_QUIZ_KEY) ||
+                                    (data.quiz && data.quiz !== BOOKMARK_QUIZ_TITLE)) {
+                                    throw new Error('Backup belongs to another quiz');
+                                }
+                            }
+                            const ids = Array.isArray(data) ? data : data.bookmarks;
+                            if (!Array.isArray(ids)) throw new Error('Invalid bookmark backup format');
+                            const validIds = new Set(quizData.map(q => q.id));
+                            const imported = ids.map(Number).filter(id => Number.isInteger(id) && validIds.has(id));
+                            bookmarkedQuestionIds = [...new Set([...bookmarkedQuestionIds, ...imported])];
+                            saveBookmarkedQuestionIds();
+                            updateBookmarkUI();
+                            alert(imported.length + 'টি বুকমার্ক রিস্টোর করা হয়েছে। আগের বুকমার্কগুলোও রাখা হয়েছে।');
+                        } catch (error) {
+                            alert('এই অধ্যায়ের সঠিক bookmark backup JSON ফাইল নির্বাচন করুন। অন্য অধ্যায়ের ব্যাকআপ নেওয়া যাবে না।');
+                            console.error('Could not import bookmarks:', error);
+                        } finally {
+                            event.target.value = '';
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+        
+                // End bookmark functions.
+
+        // DOM Element Caching
+        const questionBadge = document.getElementById('question-badge');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const rationaleBox = document.getElementById('rationale-box');
+        const rationaleTitle = document.getElementById('rationale-title');
+        const rationaleText = document.getElementById('rationale-text');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const navGrid = document.getElementById('nav-grid');
+
+        const statTotal = document.getElementById('stat-total');
+        const statAnswered = document.getElementById('stat-answered');
+        const statScore = document.getElementById('stat-score');
+        const progressBar = document.getElementById('progress-bar');
+        const completionTag = document.getElementById('completion-tag');
+
+        function initQuiz() {
+            statTotal.innerText = quizData.length;
+            userAnswers = new Array(quizData.length).fill(null);
+            buildNavigatorGrid();
+            if (quizData.length > 0) {
+                renderQuestion(0);
+            }
+            updateStats();
+        }
+
+        function buildNavigatorGrid() {
+            navGrid.innerHTML = '';
+            quizData.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `nav-btn-${idx}`;
+                btn.innerText = idx + 1;
+                btn.onclick = () => jumpToQuestion(idx);
+                btn.className = `w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center transition-all border ${getNavBtnClass(idx)}`;
+                navGrid.appendChild(btn);
+            });
+        }
+
+        function getNavBtnClass(idx) {
+            if (idx === currentQuestionIdx) {
+                return "bg-indigo-600 text-white border-indigo-400 ring-2 ring-indigo-500/50 shadow-md";
+            }
+            if (userAnswers[idx] !== null) {
+                const isCorrect = userAnswers[idx] === quizData[idx].correct;
+                return isCorrect 
+                    ? "bg-emerald-950/80 text-emerald-400 border-emerald-800" 
+                    : "bg-rose-950/80 text-rose-400 border-rose-800";
+            }
+            return "bg-slate-900/80 text-slate-400 border-slate-800 hover:bg-slate-800";
+        }
+
+        function updateNavigator() {
+            quizData.forEach((_, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (btn) {
+                    btn.className = `w-7 h-7 rounded-lg text-xs font-bold flex items-center justify-center transition-all border ${getNavBtnClass(idx)}`;
+                }
+            });
+        }
+
+        function renderQuestion(idx) {
+            if (quizData.length === 0) return;
+            currentQuestionIdx = idx;
+            const item = quizData[idx];
+
+            questionBadge.innerText = `প্রশ্ন ${idx + 1} / ${quizData.length}`;
+            questionText.innerText = item.question;
+
+            optionsContainer.innerHTML = '';
+            const userAns = userAnswers[idx];
+            const optionPrefixes = ['ক', 'খ', 'গ', 'ঘ'];
+
+            item.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                btn.onclick = () => selectOption(optIdx);
+
+                let btnStyle = "bg-slate-900/60 hover:bg-slate-800/80 border-slate-800 text-slate-200";
+
+                if (userAns !== null) {
+                    if (optIdx === item.correct) {
+                        btnStyle = "bg-emerald-950/50 border-emerald-500/80 text-emerald-200 font-medium";
+                    } else if (optIdx === userAns) {
+                        btnStyle = "bg-rose-950/50 border-rose-500/80 text-rose-200";
+                    } else {
+                        btnStyle = "bg-slate-950/30 border-slate-900 text-slate-500 opacity-50";
+                    }
+                }
+
+                btn.className = `w-full text-left p-4 rounded-2xl border text-sm md:text-base transition-all duration-200 flex items-center justify-between group ${btnStyle}`;
+                
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-xl border border-slate-700 bg-slate-900/80 flex items-center justify-center text-xs font-bold text-slate-400 flex-shrink-0 group-hover:border-indigo-500 transition-colors">
+                            ${optionPrefixes[optIdx]}
+                        </span>
+                        <span>${optText}</span>
+                    </div>
+                    ${userAns !== null && optIdx === item.correct ? '<span class="text-emerald-400 font-bold text-base">✓</span>' : ''}
+                    ${userAns !== null && optIdx === userAns && optIdx !== item.correct ? '<span class="text-rose-400 font-bold text-base">✕</span>' : ''}
+                `;
+
+                if (userAns !== null) {
+                    btn.disabled = true;
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            if (userAns !== null) {
+                rationaleBox.classList.remove('hidden');
+                const isCorrect = userAns === item.correct;
+                if (isCorrect) {
+                    rationaleBox.className = "mb-6 p-4 rounded-2xl border border-emerald-500/30 bg-emerald-950/30 text-emerald-300 text-sm";
+                    rationaleTitle.innerHTML = "<span class='text-emerald-400'>✓ সঠিক উত্তর!</span>";
+                } else {
+                    rationaleBox.className = "mb-6 p-4 rounded-2xl border border-rose-500/30 bg-rose-950/30 text-rose-300 text-sm";
+                    rationaleTitle.innerHTML = "<span class='text-rose-400'>✕ ভুল উত্তর!</span>";
+                }
+                rationaleText.innerText = item.fact;
+            } else {
+                rationaleBox.classList.add('hidden');
+            }
+
+            prevBtn.disabled = idx === 0;
+            if (idx === quizData.length - 1) {
+                nextBtn.innerText = "ফলাফল দেখুন 🏆";
+            } else {
+                nextBtn.innerText = "পরবর্তী →";
+            }
+
+            updateNavigator();
+            updateBookmarkUI();
+        }
+
+        function selectOption(optIdx) {
+            if (userAnswers[currentQuestionIdx] !== null) return;
+
+            userAnswers[currentQuestionIdx] = optIdx;
+            renderQuestion(currentQuestionIdx);
+            updateStats();
+
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            if (answeredCount === quizData.length) {
+                setTimeout(showResults, 1200);
+            }
+        }
+
+        function navigateQuestion(direction) {
+            const newIdx = currentQuestionIdx + direction;
+            if (newIdx >= 0 && newIdx < quizData.length) {
+                renderQuestion(newIdx);
+            } else if (newIdx >= quizData.length) {
+                showResults();
+            }
+        }
+
+        function jumpToQuestion(idx) {
+            renderQuestion(idx);
+        }
+
+        function updateStats() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            let score = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === quizData[idx].correct) score++;
+            });
+
+            statAnswered.innerText = answered;
+            statScore.innerText = score;
+
+            const percentage = quizData.length > 0 ? Math.round((answered / quizData.length) * 100) : 0;
+            progressBar.style.width = `${percentage}%`;
+            completionTag.innerText = `${percentage}% সম্পন্ন`;
+        }
+
+        function showResults() {
+            document.getElementById('quiz-card').classList.add('hidden');
+            document.getElementById('stats-strip').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            const total = quizData.length;
+            let correct = 0;
+            userAnswers.forEach((ans, idx) => {
+                if (ans === quizData[idx].correct) correct++;
+            });
+            const wrong = userAnswers.filter(a => a !== null).length - correct;
+            const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+            document.getElementById('res-total').innerText = total;
+            document.getElementById('res-correct').innerText = correct;
+            document.getElementById('res-wrong').innerText = wrong;
+            document.getElementById('res-accuracy').innerText = `${accuracy}%`;
+
+            buildReviewList();
+        }
+
+        function buildReviewList() {
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = '';
+
+            quizData.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.correct;
+                const isUnanswered = userAns === null;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `p-4 rounded-2xl border text-sm ${
+                    isCorrect 
+                        ? 'bg-emerald-950/20 border-emerald-800/60' 
+                        : isUnanswered 
+                        ? 'bg-slate-900/40 border-slate-800' 
+                        : 'bg-rose-950/20 border-rose-800/60'
+                }`;
+
+                itemDiv.innerHTML = `
+                    <div class="font-bold text-slate-200 mb-1 leading-snug">
+                        ${idx + 1}. ${q.question}
+                    </div>
+                    <div class="text-xs text-slate-400 mb-2">
+                        আপনার উত্তর: <span class="${isCorrect ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold'}">${userAns !== null ? q.options[userAns] : 'উত্তর দেওয়া হয়নি'}</span>
+                    </div>
+                    <div class="text-xs bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-indigo-300">
+                        💡 <strong>ব্যাখ্যা:</strong> ${q.fact}
+                    </div>
+                `;
+
+                reviewList.appendChild(itemDiv);
+            });
+        }
+
+        function toggleReviewMode() {
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.classList.toggle('hidden');
+        }
+
+        function confirmReset() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function executeReset() {
+            userAnswers = new Array(quizData.length).fill(null);
+            currentQuestionIdx = 0;
+
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('review-container').classList.add('hidden');
+            document.getElementById('quiz-card').classList.remove('hidden');
+            document.getElementById('stats-strip').classList.remove('hidden');
+
+            closeResetModal();
+            buildNavigatorGrid();
+            renderQuestion(0);
+            updateStats();
+        }
+// ==========================================
+        // AUTO-UPDATE ANSWER KEYS FROM ANSWER SHEET
+        // ==========================================
+        const answerKeyMap = {
+            1: 0, 2: 1, 3: 2, 4: 2, 5: 2, 6: 0, 7: 3, 8: 0, 9: 1, 10: 3,
+            11: 0, 12: 0, 13: 2, 14: 0, 15: 2, 16: 3, 17: 2, 18: 1, 19: 1, 20: 1,
+            21: 0, 22: 2, 23: 0, 24: 3, 25: 2, 26: 1, 27: 1, 28: 2, 29: 1, 30: 2,
+            31: 3, 32: 3, 33: 1, 34: 3, 35: 3, 36: 2, 37: 3, 38: 3, 39: 0, 40: 0,
+            41: 1, 42: 0, 43: 3, 44: 2, 45: 1, 46: 3, 47: 3, 48: 3, 49: 2, 50: 3,
+            51: 3, 52: 0, 53: 2, 54: 2, 55: 1, 56: 1, 57: 2, 58: 3, 59: 0, 60: 3,
+            61: 0, 62: 0, 63: 3, 64: 0, 65: 1, 66: 1, 67: 0, 68: 2, 69: 2, 70: 3,
+            71: 1, 72: 2, 73: 1, 74: 1, 75: 3, 76: 0, 77: 3, 78: 1, 79: 0, 80: 3,
+            81: 0, 82: 3, 83: 0, 84: 2, 85: 3, 86: 0, 87: 0, 88: 1, 89: 0, 90: 0,
+            91: 0, 92: 0, 93: 2, 94: 1, 95: 1, 96: 0, 97: 3, 98: 1, 99: 1, 100: 3,
+            101: 0, 102: 3, 103: 3, 104: 2, 105: 0, 106: 2, 107: 0, 108: 0, 109: 2, 110: 1,
+            111: 0, 112: 0, 113: 1, 114: 3, 115: 3, 116: 2, 117: 2, 118: 1, 119: 3, 120: 1,
+            121: 1, 122: 0, 123: 2, 124: 3, 125: 1, 126: 1, 127: 0, 128: 3, 129: 2, 130: 2,
+            131: 0, 132: 1, 133: 2, 134: 2, 135: 1, 136: 3, 137: 1, 138: 3, 139: 3, 140: 1,
+            141: 3, 142: 3, 143: 1, 144: 2, 145: 3, 146: 3, 147: 3, 148: 0, 149: 3, 150: 0,
+            
+        };
+
+        // Automatically assign correct answers to each question based on its ID
+        quizData.forEach(q => {
+            if (answerKeyMap[q.id] !== undefined) {
+                q.correct = answerKeyMap[q.id];
+            }
+        });
+
+
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
