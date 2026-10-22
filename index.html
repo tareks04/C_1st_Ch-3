@@ -376,7 +376,7 @@
                 id: 11,
                 question: "কোনগুলো অধাতু?",
                 options: ["Si, Ge, As", "Na, K, Ca", "Mg, Al, Sb", "Ne, Fe, Ni"],
-                correct: 0,
+                correct: 3,
                 fact: "নিষ্ক্রিয় গ্যাস ও অন্যান্য অধাতুভিত্তিক সঠিক সেট।"
             },
             {
@@ -571,9 +571,9 @@
             {
                 id: 39,
                 question: "নিচের কোনটির আকার সবচেয়ে ছোটো?",
-                options: ["O", "N⁺", "C", "Li"],
-                correct: 0,
-                fact: "২য় পর্যায়ের মৌল
+                options: ["O", "Al³⁺", "C", "Li"],
+                correct: 1,
+                fact: "অ্যালুমিনিয়াম ক্যাটায়ন (Al³⁺) ইলেকট্রন হারানোর ফলে অত্যন্ত ক্ষুদ্র আকার ধারণ করে।"
             },
             {
                 id: 40,
@@ -656,7 +656,7 @@
                 id: 51,
                 question: "আয়নীকরণ বিভবের ক্ষেত্রে নিচের কোন ক্রমটি সঠিক?",
                 options: ["O < N < B < Be", "N < O < Be < B", "Be < B < O < N", "B < Be < O < N"],
-                correct: 3,
+                correct: 2,
                 fact: "পর্যায় ২ এর মৌলসমূহের আয়নীকরণ শক্তির ব্যতিক্রমী ক্রম হলো Be < B < O < N।"
             },
             {
@@ -815,7 +815,7 @@
             },
             {
                 id: 74,
-                question: "কোন সংকরায়ন হলে পাই বন্ধন গঠিত হয়?",
+                question: "কোন সংকরায়ন হলে বন্ধন গঠিত হয়?",
                 options: ["sp³", "sp²", "dsp²", "d²sp²"],
                 correct: 0,
                 fact: "সাধারণ চতুস্তলকীয় সমযোজী অণুতে sp³ সংকরায়ন ঘটে।"
@@ -850,7 +850,7 @@
             },
             {
                 id: 79,
-                question: "নিচের কোন যৌগটিতে সঞ্চরণ অক্ষম পাই (pi)  ইলেকট্রন আছে?",
+                question: "নিচের কোন যৌগটিতে সঞ্চরণ অক্ষম পাই ($\pi$) ইলেকট্রন আছে?",
                 options: ["C₂H₄", "C₂H₆", "C₆H₆", "C₃H₈"],
                 correct: 0,
                 fact: "ইথিলিনে স্থানীয়কৃত বা সঞ্চরণ অক্ষম পাই বন্ধন থাকে।"
@@ -901,13 +901,13 @@
                 id: 86,
                 question: "SiCl₄, BF₃ ও NH₃ যৌগগুলোতে বন্ধন কোণের সঠিক ক্রম কোনটি?",
                 options: ["SiCl₄ > BF₃ > NH₃", "NH₃ > BF₃ > SiCl₄", "BF₃ > NH₃ > SiCl₄", "BF₃ > SiCl₄ > NH₃"],
-                correct: 2,
+                correct: 0,
                 fact: "ত্রিকোণীয় সমতলীয় (BF₃, 120°) > পিরামিডীয় (NH₃, 107°) > চতুস্তলকীয় (SiCl₄, 109.5°) তুলনামূলক ক্রম।"
             },
             {
                 id: 87,
                 question: "NCl₃ অণুর আকৃতি কীরূপ?",
-                options: ["ত্রিভুজাকার", "পিরামিডীয়", "চতুস্তলকীয়", "কৌণিক"],
+                options: ["ত্রিভুজাকার", "পিরামিডীয়", "চতুস্তলکীয়", "কৌণিক"],
                 correct: 1,
                 fact: "অ্যামোনিয়ার মতো NCl₃ অণুর আকৃতি পিরামিডীয়।"
             },
@@ -985,7 +985,7 @@
                 id: 98,
                 question: "নিচের কোন আয়নিক যৌগটিতে সবচেয়ে বেশি পোলারায়ন ঘটে?",
                 options: ["BeCl₂", "MgCl₂", "NaCl", "AlCl₃"],
-                correct: 3,
+                correct: 1,
                 fact: "AlCl₃ এ ক্যাটায়নের চার্জ বেশি হওয়ায় পোলারায়ন সবচেয়ে বেশি ঘটে।"
             },
             {
@@ -1871,7 +1871,28 @@
         });
 
 
-        window.onload = initQuiz;
+        // Reliable startup with visible diagnostics while preserving quiz timer.
+        function startQuizSafely() {
+            try {
+                initQuiz();
+            } catch (error) {
+                console.error('Quiz initialization failed:', error);
+                const questionEl = document.getElementById('question-text');
+                if (questionEl) {
+                    questionEl.textContent = 'কুইজ লোড করা যায়নি। পেজটি রিফ্রেশ করুন। সমস্যা থাকলে F12 → Console-এর লাল error দেখুন।';
+                }
+                const totalEl = document.getElementById('stat-total');
+                if (totalEl && Array.isArray(quizData)) {
+                    totalEl.textContent = String(quizData.length);
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startQuizSafely, { once: true });
+        } else {
+            startQuizSafely();
+        }
     </script>
 </body>
 </html>
