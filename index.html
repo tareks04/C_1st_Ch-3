@@ -153,6 +153,9 @@
                 </span>
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="text-xs text-slate-400 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-800">অধ্যায় ৩: মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন</span>
+                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-300 bg-cyan-500/10 px-3 py-1.5 rounded-full border border-cyan-500/20" aria-live="off" title="প্রথম উত্তর নির্বাচন করলে টাইমার শুরু হবে">
+                        <span aria-hidden="true">⏱</span><span>সময়</span><span id="live-timer" class="tabular-nums">00:00</span>
+                    </span>
                     <button id="bookmark-current-btn" onclick="toggleCurrentBookmark()" aria-pressed="false" class="animated-btn px-3 py-1.5 rounded-xl text-xs md:text-sm font-semibold bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/30">☆ বুকমার্ক করুন</button>
                 </div>
             </div>
@@ -231,6 +234,23 @@
                     <span id="res-accuracy" class="text-2xl font-bold text-amber-400">0%</span>
                 </div>
             </div>
+
+            <!-- Time and Answered-Question Summary -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 text-center">
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-cyan-500/20">
+                    <span class="text-xs text-slate-400 block mb-1">মোট সময়</span>
+                    <span id="res-time" class="text-xl md:text-2xl font-bold text-cyan-300">0 সেকেন্ড</span>
+                </div>
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-indigo-500/20">
+                    <span class="text-xs text-slate-400 block mb-1">উত্তর দেওয়া প্রশ্ন (স্কিপ বাদে)</span>
+                    <span id="res-answered" class="text-xl md:text-2xl font-bold text-indigo-300">0</span>
+                </div>
+                <div class="bg-slate-950/80 p-4 rounded-2xl border border-emerald-500/20">
+                    <span class="text-xs text-slate-400 block mb-1">প্রতি প্রশ্নে গড় সময়</span>
+                    <span id="res-average" class="text-xl md:text-2xl font-bold text-emerald-300">—</span>
+                </div>
+            </div>
+            <p id="res-time-summary" class="text-sm md:text-base text-slate-300 mb-8" aria-live="polite">আপনার সময়ের হিসাব এখানে দেখানো হবে।</p>
 
             <!-- Action Controls -->
             <div class="flex flex-wrap justify-center gap-3">
@@ -1337,6 +1357,12 @@
         let currentQuestionIdx = 0;
         let userAnswers = new Array(quizData.length).fill(null);
 
+        // Automatic quiz timer: starts at the first selected answer and stops at submission.
+        let quizTimerStartTime = null;
+        let quizTimerEndTime = null;
+        let quizTimerInterval = null;
+        let quizElapsedMs = 0;
+
         // Bookmarks are saved in this browser automatically. Use backup/restore to transfer them.
                 const BOOKMARK_STORAGE_KEY = 'chem_c03_periodic_bonding_bookmarks_v1';
                 const BOOKMARK_QUIZ_KEY = 'chem_c03_periodic_bonding';
@@ -1491,8 +1517,70 @@
         const statScore = document.getElementById('stat-score');
         const progressBar = document.getElementById('progress-bar');
         const completionTag = document.getElementById('completion-tag');
+        const liveTimer = document.getElementById('live-timer');
+
+        function formatClock(milliseconds) {
+            const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            const pad = value => String(value).padStart(2, '0');
+            return hours > 0
+                ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
+                : `${pad(minutes)}:${pad(seconds)}`;
+        }
+
+        function formatDuration(milliseconds) {
+            const totalSeconds = Math.max(0, Math.round(milliseconds / 1000));
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            if (minutes > 0) return `${minutes} মিনিট ${seconds} সেকেন্ড`;
+            return `${seconds} সেকেন্ড`;
+        }
+
+        function updateLiveTimer() {
+            if (quizTimerStartTime === null) {
+                quizElapsedMs = 0;
+            } else if (quizTimerEndTime === null) {
+                quizElapsedMs = Date.now() - quizTimerStartTime;
+            } else {
+                quizElapsedMs = quizTimerEndTime - quizTimerStartTime;
+            }
+            if (liveTimer) liveTimer.textContent = formatClock(quizElapsedMs);
+        }
+
+        function startQuizTimer() {
+            if (quizTimerStartTime !== null) return;
+            quizTimerStartTime = Date.now();
+            quizTimerEndTime = null;
+            updateLiveTimer();
+            quizTimerInterval = setInterval(updateLiveTimer, 250);
+        }
+
+        function stopQuizTimer() {
+            if (quizTimerInterval !== null) {
+                clearInterval(quizTimerInterval);
+                quizTimerInterval = null;
+            }
+            if (quizTimerStartTime !== null && quizTimerEndTime === null) {
+                quizTimerEndTime = Date.now();
+            }
+            updateLiveTimer();
+        }
+
+        function resetQuizTimer() {
+            if (quizTimerInterval !== null) {
+                clearInterval(quizTimerInterval);
+                quizTimerInterval = null;
+            }
+            quizTimerStartTime = null;
+            quizTimerEndTime = null;
+            quizElapsedMs = 0;
+            updateLiveTimer();
+        }
 
         function initQuiz() {
+            resetQuizTimer();
             statTotal.innerText = quizData.length;
             userAnswers = new Array(quizData.length).fill(null);
             buildNavigatorGrid();
@@ -1601,7 +1689,7 @@
 
             prevBtn.disabled = idx === 0;
             if (idx === quizData.length - 1) {
-                nextBtn.innerText = "ফলাফল দেখুন 🏆";
+                nextBtn.innerText = "সাবমিট ও ফলাফল 🏆";
             } else {
                 nextBtn.innerText = "পরবর্তী →";
             }
@@ -1613,12 +1701,15 @@
         function selectOption(optIdx) {
             if (userAnswers[currentQuestionIdx] !== null) return;
 
+            startQuizTimer();
             userAnswers[currentQuestionIdx] = optIdx;
             renderQuestion(currentQuestionIdx);
             updateStats();
 
             const answeredCount = userAnswers.filter(a => a !== null).length;
             if (answeredCount === quizData.length) {
+                // Stop at the final answer, rather than counting the result-screen delay.
+                stopQuizTimer();
                 setTimeout(showResults, 1200);
             }
         }
@@ -1652,6 +1743,8 @@
         }
 
         function showResults() {
+            // The final-question result button also stops the timer; repeated calls are safe.
+            stopQuizTimer();
             document.getElementById('quiz-card').classList.add('hidden');
             document.getElementById('stats-strip').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
@@ -1661,13 +1754,21 @@
             userAnswers.forEach((ans, idx) => {
                 if (ans === quizData[idx].correct) correct++;
             });
-            const wrong = userAnswers.filter(a => a !== null).length - correct;
+            const answered = userAnswers.filter(a => a !== null).length;
+            const wrong = answered - correct;
             const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const averageMs = answered > 0 ? Math.round(quizElapsedMs / answered / 1000) * 1000 : null;
 
             document.getElementById('res-total').innerText = total;
             document.getElementById('res-correct').innerText = correct;
             document.getElementById('res-wrong').innerText = wrong;
             document.getElementById('res-accuracy').innerText = `${accuracy}%`;
+            document.getElementById('res-time').innerText = formatDuration(quizElapsedMs);
+            document.getElementById('res-answered').innerText = answered;
+            document.getElementById('res-average').innerText = averageMs === null ? '—' : formatDuration(averageMs);
+            document.getElementById('res-time-summary').innerText = answered > 0
+                ? `আপনি ${formatDuration(quizElapsedMs)} সময়ে ${answered}টি প্রশ্নের উত্তর দিয়েছেন। প্রতি প্রশ্নে গড় সময় ${formatDuration(averageMs)}।`
+                : 'আপনি কোনো প্রশ্নের উত্তর দেননি, তাই গড় সময় হিসাব করা যায়নি।';
 
             buildReviewList();
         }
@@ -1722,6 +1823,7 @@
         function executeReset() {
             userAnswers = new Array(quizData.length).fill(null);
             currentQuestionIdx = 0;
+            resetQuizTimer();
 
             document.getElementById('result-screen').classList.add('hidden');
             document.getElementById('review-container').classList.add('hidden');
@@ -1733,6 +1835,12 @@
             renderQuestion(0);
             updateStats();
         }
+
+        // Also used by the result-screen restart button.
+        function restartQuiz() {
+            executeReset();
+        }
+
 // ==========================================
         // AUTO-UPDATE ANSWER KEYS FROM ANSWER SHEET
         // ==========================================
